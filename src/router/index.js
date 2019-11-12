@@ -14,11 +14,7 @@ export default new Router({
       path: '/v1',
       name: 'HelloWorld',
       component: resolve => require(['../components/zx'],resolve),
-    },
-    {
-      path: '/v2',
-      name: 'HelloWorld',
-      component:resolve => require(['../components/HelloWorld'],resolve),
     }
+   
   ]
 })
