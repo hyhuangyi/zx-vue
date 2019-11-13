@@ -4,7 +4,7 @@
     <div class="wrapperchild">
         <div >
           <div class="top">
-           <span class="top-one">ZX-管理后台</span>
+           <span class="top-one">数据中心</span>
         </div>  
           <div class="form">
           
