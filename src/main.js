@@ -26,7 +26,10 @@ import 'viewerjs/dist/viewer.css'
 import {post,Delete,put,get} from '../src/util/http'
 /**兼容 转码器*/
 import 'babel-polyfill'
+/**Vue粒子特效(vue-particles插件)*/
+import VueParticles from 'vue-particles'  
 
+Vue.use(VueParticles) 
 Vue.use(Vuex);
 Vue.use(ElementUI)
 Vue.prototype.$qs = qs
