@@ -102,7 +102,7 @@
   width:300px;
   height:354px;
   /* margin-left: 60px; */
-  border:1px solid rgba(170,167, 202, 1);
+  border:1px solid rgb(188, 184, 233);
   border-radius:6px;
   display: flex;
   flex-direction: column;
