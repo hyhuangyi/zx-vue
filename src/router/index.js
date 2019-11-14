@@ -14,7 +14,11 @@ export default new Router({
       path: '/v1',
       name: 'HelloWorld',
       component: resolve => require(['../components/zx'],resolve),
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: resolve => require(['../components/404'],resolve),
     }
-   
   ]
 })
