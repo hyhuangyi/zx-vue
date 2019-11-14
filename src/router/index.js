@@ -8,17 +8,13 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component:resolve => require(['../components/login'],resolve),
+      component:resolve => require(['../views/login'],resolve),
     },
     {
       path: '/v1',
       name: 'HelloWorld',
-      component: resolve => require(['../components/zx'],resolve),
-    },
-    {
-      path: '/404',
-      name: '404',
-      component: resolve => require(['../components/404'],resolve),
+      component: resolve => require(['../views/zx'],resolve),
     }
+   
   ]
 })
