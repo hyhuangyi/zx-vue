@@ -14,22 +14,7 @@ export default {
 </script>
 
 <style>
-#app {
-  width: 100%;
-  height: 100%;
-}
-html,body,ul,li,a,p,img,input,span{
-  margin: 0;
-  padding: 0;
-}
-a{
-  text-decoration: none;
-}
-ul li{
-  list-style: none;
-}
-html,body{
-  width: 100%;
-  height: 100%;
-}
+ @import "./assets/css/main.css";
+ @import "./assets/css/color-dark.css";     /*深色主题*/
+/* @import "./assets/css/theme-green/color-green.css";   浅绿色主题 */
 </style>
