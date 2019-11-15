@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import '../assets/css/login.css'
+import '../..//assets/css/login.css'
 import axios from 'axios'
 export default {
   data() {
