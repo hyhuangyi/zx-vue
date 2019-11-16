@@ -5,7 +5,7 @@ module.exports = {
     outputDir: 'dist',
     devServer: {
         open: true,
-        host: 'localhost',
+        host: '0.0.0.0',
         port: 8088,
         https: false,
         hotOnly: false,
