@@ -16,7 +16,7 @@ export default new Router({
             children: [
                 {
                     path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/dashboard/Dashboard.vue'),
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/monitor/monitor.vue'),
                     meta: { title: '系统首页' }
                 },
                 {
@@ -96,10 +96,6 @@ export default new Router({
         {
             path: '*',
             redirect: '/404'
-        },{
-            path: '/test',
-            component: () => import(/* webpackChunkName: "test" */ '../components/page/login/test.vue'),
-            meta: { title: '登录' }
-        },
+        }
     ]
 });
