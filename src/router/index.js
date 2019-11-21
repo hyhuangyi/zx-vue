@@ -16,7 +16,7 @@ export default new Router({
             children: [
                 {
                     path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/monitor/monitor.vue'),
+                    component: () => import(/* webpackChunkName: "monitor" */ '../components/page/monitor/monitor.vue'),
                     meta: { title: '系统首页' }
                 },
                 {
@@ -26,8 +26,8 @@ export default new Router({
                 },
                 {
                     path: '/table',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/demo/BaseTable.vue'),
-                    meta: { title: '基础表格' }
+                    component: () => import(/* webpackChunkName: "cityTable" */ '../components/page/table/cityTable.vue'),
+                    meta: { title: '城市列表' }
                 },
                 {
                     path: '/tabs',
