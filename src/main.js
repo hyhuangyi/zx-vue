@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import global from './utils/globleApi';
+import globalApi from './utils/globalApi';
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
@@ -11,8 +11,8 @@ import './assets/css/icon.css';
 import './components/common/directives';
 import VueParticles from 'vue-particles'
 import 'babel-polyfill';
-
-Vue.prototype.global=global;
+//定义全局baseUrl
+Vue.prototype.GLOBAL_BaseUrl=globalApi.baseURL;
 Vue.config.productionTip = false;
 Vue.use(VueParticles)
 Vue.use(VueI18n);

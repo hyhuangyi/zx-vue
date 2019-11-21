@@ -7,7 +7,7 @@
 export default {
   data() {
     return {
-      src: "http://localhost:8088/zx/swagger-ui.html",
+      src: this.GLOBAL_BaseUrl+"/swagger-ui.html",
       height: document.documentElement.clientHeight - 94.5 + "px;",
       loading: true
     };
