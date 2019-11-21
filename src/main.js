@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
+import global from './utils/globleApi';
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
@@ -11,6 +12,7 @@ import './components/common/directives';
 import VueParticles from 'vue-particles'
 import 'babel-polyfill';
 
+Vue.prototype.global=global;
 Vue.config.productionTip = false;
 Vue.use(VueParticles)
 Vue.use(VueI18n);

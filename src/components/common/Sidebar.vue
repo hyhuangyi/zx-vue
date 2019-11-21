@@ -129,6 +129,10 @@ export default {
                             title: '404页面'
                         }
                     ]
+                },{
+                    icon: 'el-icon-lx-read',
+                    index: 'swagger',
+                    title: '接口文档' 
                 }
             ]
         };

@@ -84,6 +84,11 @@ export default new Router({
                     path: '/403',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/error/403.vue'),
                     meta: { title: '403' }
+                },
+                {
+                    path: '/swagger',
+                    component: () => import(/* webpackChunkName: "swagger" */ '../components/page/login/swagger.vue'),
+                    meta: { title: '接口文档' }
                 }
                
             ]
