@@ -96,6 +96,10 @@ export default new Router({
         {
             path: '*',
             redirect: '/404'
-        }
+        },{
+            path: '/test',
+            component: () => import(/* webpackChunkName: "test" */ '../components/page/login/test.vue'),
+            meta: { title: '登录' }
+        },
     ]
 });
