@@ -1,21 +1,22 @@
 <template>
     <div class="login-wrap">
         <vue-particles
-        color="#dedede"
-        :particleOpacity="0.7"
-        :particlesNumber="88"
-        shapeType="circle"
-        :particleSize="4"
-        linesColor="#dedede"
-        :linesWidth="1"
-        :lineLinked="true"
-        :lineOpacity="0.4"
-        :linesDistance="150"
-        :moveSpeed="3"
-        :hoverEffect="true"
-        hoverMode="grab"
-        :clickEffect="true"
-        clickMode="push" />
+            color="#dedede"
+            :particleOpacity="0.7"
+            :particlesNumber="88"
+            shapeType="circle"
+            :particleSize="4"
+            linesColor="#dedede"
+            :linesWidth="1"
+            :lineLinked="true"
+            :lineOpacity="0.4"
+            :linesDistance="150"
+            :moveSpeed="3"
+            :hoverEffect="true"
+            hoverMode="grab"
+            :clickEffect="true"
+            clickMode="push"
+        />
 
         <div class="ms-login">
             <div class="ms-title">数据中心</div>
@@ -45,34 +46,44 @@
 </template>
 
 <script>
+
 export default {
     data: function() {
         return {
             param: {
                 username: 'admin',
-                password: '123123',
+                password: '123456'
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-            },
+                password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+            }
         };
     },
     methods: {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
-                    this.$router.push('/');
+                    this.$post('/comm/login', this.param).then(res => {
+                        if (res.code == 200) {
+                            this.$message.success('登录成功');
+                            localStorage.setItem('username', this.param.username);
+                            localStorage.setItem('userId', res.data.userId);
+                            localStorage.setItem('roleList', JSON.stringify(res.data.roleList));
+                            localStorage.setItem('menuList', JSON.stringify(res.data.menuVOList));
+                            this.$router.push('/');
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
                     return false;
                 }
             });
-        },
-    },
+        }
+    }
 };
 </script>
 

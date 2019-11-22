@@ -54,12 +54,11 @@
 
 <script>
 import bus from '../common/bus';
-import { menus } from '../../../src/api/menu';
 export default {
     data() {
         return {
             collapse: false,
-            items: []
+            items: JSON.parse(localStorage.getItem('menuList'))
         };
     },
 
@@ -77,8 +76,6 @@ export default {
         }
     },
     created() {
-        //获取数据
-        this.getList();
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
             this.collapse = msg;

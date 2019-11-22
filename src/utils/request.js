@@ -1,5 +1,6 @@
 import axios from 'axios';
-import globalApi from './globalApi'
+import globalApi from './globalApi';
+import qs from 'qs';
 
 console.log(globalApi.baseURL)
 
@@ -10,6 +11,10 @@ const service = axios.create({
 
 service.interceptors.request.use(
     config => {
+        if(config.method=="post"){
+            config.data = qs.stringify(config.data);
+            config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
         return config;
     },
     error => {

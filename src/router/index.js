@@ -17,7 +17,7 @@ export default new Router({
                 {
                     path: '/dashboard',
                     component: () => import(/* webpackChunkName: "monitor" */ '../components/page/sys/monitor.vue'),
-                    meta: { title: '系统首页' }
+                    meta: { title: '系统首页'}
                 },
                
                 {
@@ -79,6 +79,14 @@ export default new Router({
                     path: '/druid',
                     component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/druid.vue'),
                     meta: { title: '数据监控' }
+                },{
+                    path: '/404',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/error/404.vue'),
+                    meta: { title: '404' }
+                },{
+                    path: '/403',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/error/403.vue'),
+                    meta: { title: '403' }
                 }
                
             ]

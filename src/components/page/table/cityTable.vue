@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { fetchData } from '../../../api/city';
+
 export default {
     name: 'cityTable',
     data() {
@@ -91,7 +91,7 @@ export default {
         // 获取数据
         getData() {
              this.openLoading();
-            fetchData(this.query).then(res => {
+            this.$get('/comm/city/list',this.query).then(res => {
                 console.log(res);
                 this.tableData = res.data.records;
                 this.pageTotal = res.data.total || 50;
