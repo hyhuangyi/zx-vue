@@ -2,6 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import globalApi from './globalApi';
 import { Message } from 'element-ui';
+import { Loading } from 'element-ui'
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL =globalApi.baseURL;
@@ -53,17 +54,25 @@ axios.defaults.baseURL =globalApi.baseURL;
  * @param data
  * @returns {Promise}
  */
-
-export function get(url,params={}){
+export function get(url,isLoad,params={}){
   return new Promise((resolve,reject) => {
+    if(isLoad){
+      showFullScreenLoading();
+    }
     axios.get(url,{
       params:params
     })
     .then(response => {
       resolve(response.data);
+      if(isLoad){
+        tryHideFullScreenLoading();
+      }
     })
     .catch(err => {
       reject(err);
+      if(isLoad){
+        tryHideFullScreenLoading();
+      }
       Message.error(err.stack);
     })
   })
@@ -76,56 +85,55 @@ export function get(url,params={}){
  * @param data
  * @returns {Promise}
  */
-
- export function post(url,data = {}){
+ export function post(url,isLoad,data = {}){
    return new Promise((resolve,reject) => {
+    if(isLoad){
+      showFullScreenLoading();
+    }
      axios.post(url,qs.stringify(data))
           .then(response => {
             resolve(response.data);
+            if(isLoad){
+              tryHideFullScreenLoading();
+            }
           },err => {
             reject(err);
+            if(isLoad){
+              tryHideFullScreenLoading();
+            }
             Message.error(err.stack);
           })
    })
  }
 
- /**
- * 封装patch请求
- * @param url
- * @param data
- * @returns {Promise}
- */
 
-export function Delete(url,params={}){
-  return new Promise((resolve,reject) => {
-    axios.delete(url,{
-      params:params
-    })
-    .then(response => {
-      resolve(response.data);
-    })
-    .catch(err => {
-        reject(err);
-        Message.error(err.stack);
-    })
-  })
+let needLoadingRequestCount = 0;
+//加载
+export function showFullScreenLoading() {
+  if (needLoadingRequestCount === 0) {
+    startLoading()
+  }
+  needLoadingRequestCount++
+}
+//关闭
+export function tryHideFullScreenLoading() {
+  if (needLoadingRequestCount <= 0) return
+  needLoadingRequestCount--
+  if (needLoadingRequestCount === 0) {
+    endLoading()
+  }
 }
 
- /**
- * 封装put请求
- * @param url
- * @param data
- * @returns {Promise}
- */
-
-export function put(url,data = {}){
-  return new Promise((resolve,reject) => {
-    axios.put(url,qs.stringify(data))
-         .then(response => {
-           resolve(response.data);
-         },err => {
-            reject(err);
-            Message.error(err.stack);
-         })
+let loading;
+//关闭
+function startLoading() {
+  loading = Loading.service({
+    lock: true,
+    text: '加载中……',
+    background: 'rgba(0, 0, 0, 0.7)'
   })
-} 
+}
+//关闭
+function endLoading() {
+  loading.close()
+}

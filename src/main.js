@@ -5,7 +5,7 @@ import Vuex from 'vuex';
 import globalApi from './utils/globalApi';
 import axios from 'axios';
 import qs from 'qs'
-import {post,Delete,put,get} from './utils/httpUtil'
+import {post,get} from './utils/httpUtil'
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
@@ -31,9 +31,7 @@ const i18n = new VueI18n({
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios
 Vue.prototype.$post=post                  
-Vue.prototype.$put=put
 Vue.prototype.$get=get
-Vue.prototype.$Delete=Delete
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {

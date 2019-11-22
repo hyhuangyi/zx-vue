@@ -1,23 +1,4 @@
 <template>       
-<div>
-   <vue-particles
-            color="#dedede"
-            :particleOpacity="0.7"
-            :particlesNumber="88"
-            shapeType="circle"
-            :particleSize="4"
-            linesColor="#dedede"
-            :linesWidth="1"
-            :lineLinked="true"
-            :lineOpacity="0.4"
-            :linesDistance="150"
-            :moveSpeed="3"
-            :hoverEffect="true"
-            hoverMode="grab"
-            :clickEffect="true"
-            clickMode="push"
-        />
-</div>
   <div class="app-container">
     <el-row>
       <el-col :span="12" class="card-box">
@@ -222,32 +203,19 @@
 export default {
   data() {
     return {
-      // 加载层信息
-      loading: [],
       // 服务器信息
       server: []
     };
   },
   created() {
     this.getList();
-    this.openLoading();
   },
   methods: {
     /** 查询服务器信息 */
     getList() {
-      this.$get("/comm/monitor").then(res => {
+      this.$get("/comm/monitor",true).then(res => {
         this.server = res.data;
-        this.loading.close();
-      });
-    },
-    // 打开加载层
-    openLoading() {
-      this.loading = this.$loading({
-        lock: true,
-        text: "拼命读取中",
-        spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
-      });
+      })
     }
   }
 };

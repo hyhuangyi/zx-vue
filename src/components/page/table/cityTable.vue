@@ -90,12 +90,10 @@ export default {
     methods: {
         // 获取数据
         getData() {
-             this.openLoading();
-            this.$get('/comm/city/list',this.query).then(res => {
+            this.$get('/comm/city/list',false,this.query).then(res => {
                 console.log(res);
                 this.tableData = res.data.records;
                 this.pageTotal = res.data.total || 50;
-                this.loading.close();
             });
         },
         // 触发搜索按钮
@@ -139,15 +137,6 @@ export default {
             }
             this.$message.error(`删除了${str}`);
             this.multipleSelection = [];
-        },
-        // 打开加载层
-        openLoading() {
-        this.loading = this.$loading({
-            lock: true,
-            text: "拼命读取中",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-        });
         }
     }
 };
