@@ -23,18 +23,21 @@
                                 :index="subItem.index"
                                 :key="subItem.index"
                             >
+                                <i :class="subItem.icon"></i>
                                 <template slot="title">{{ subItem.title }}</template>
                                 <el-menu-item
                                     v-for="(threeItem,i) in subItem.subs"
                                     :key="i"
                                     :index="threeItem.index"
-                                >{{ threeItem.title }}</el-menu-item>
+                                >
+                                    <i :class="threeItem.icon"></i>
+                                    {{ threeItem.title }}
+                                </el-menu-item>
                             </el-submenu>
-                            <el-menu-item
-                                v-else
-                                :index="subItem.index"
-                                :key="subItem.index"
-                            >{{ subItem.title }}</el-menu-item>
+                            <el-menu-item v-else :index="subItem.index" :key="subItem.index">
+                                <i :class="subItem.icon"></i>
+                                {{ subItem.title }}
+                            </el-menu-item>
                         </template>
                     </el-submenu>
                 </template>
@@ -100,11 +103,7 @@ export default {
                         }
                     ]
                 },
-                {
-                    icon: 'el-icon-lx-emoji',
-                    index: 'icon',
-                    title: '自定义图标'
-                },
+
                 {
                     icon: 'el-icon-pie-chart',
                     index: 'charts',
@@ -116,23 +115,21 @@ export default {
                     title: '国际化功能'
                 },
                 {
-                    icon: 'el-icon-lx-warn',
-                    index: '7',
-                    title: '错误处理',
+                    icon: 'el-icon-s-tools',
+                    index: '6',
+                    title: '系统工具',
                     subs: [
                         {
-                            index: 'permission',
-                            title: '权限测试'
+                            icon: 'el-icon-lx-read',
+                            index: 'swagger',
+                            title: '接口文档'
                         },
                         {
-                            index: '404',
-                            title: '404页面'
+                            icon: 'el-icon-s-platform',
+                            index: 'druid',
+                            title: '数据监控'
                         }
                     ]
-                },{
-                    icon: 'el-icon-lx-read',
-                    index: 'swagger',
-                    title: '接口文档' 
                 }
             ]
         };

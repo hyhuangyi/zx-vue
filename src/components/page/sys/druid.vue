@@ -7,7 +7,7 @@
 export default {
   data() {
     return {
-      src: this.GLOBAL_BaseUrl+"/swagger-ui.html",
+      src: this.GLOBAL_BaseUrl + "/druid/index.html",
       height: document.documentElement.clientHeight - 94.5 + "px;",
       loading: true
     };

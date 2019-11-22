@@ -16,14 +16,10 @@ export default new Router({
             children: [
                 {
                     path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "monitor" */ '../components/page/monitor/monitor.vue'),
+                    component: () => import(/* webpackChunkName: "monitor" */ '../components/page/sys/monitor.vue'),
                     meta: { title: '系统首页' }
                 },
-                {
-                    path: '/icon',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/demo/Icon.vue'),
-                    meta: { title: '自定义图标' }
-                },
+               
                 {
                     path: '/table',
                     component: () => import(/* webpackChunkName: "cityTable" */ '../components/page/table/cityTable.vue'),
@@ -76,19 +72,13 @@ export default new Router({
                     meta: { title: '权限测试', permission: true }
                 },
                 {
-                    path: '/404',
-                    component: () => import(/* webpackChunkName: "404" */ '../components/page/error/404.vue'),
-                    meta: { title: '404' }
-                },
-                {
-                    path: '/403',
-                    component: () => import(/* webpackChunkName: "403" */ '../components/page/error/403.vue'),
-                    meta: { title: '403' }
-                },
-                {
                     path: '/swagger',
-                    component: () => import(/* webpackChunkName: "swagger" */ '../components/page/login/swagger.vue'),
+                    component: () => import(/* webpackChunkName: "swagger" */ '../components/page/sys/swagger.vue'),
                     meta: { title: '接口文档' }
+                }, {
+                    path: '/druid',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/druid.vue'),
+                    meta: { title: '数据监控' }
                 }
                
             ]
