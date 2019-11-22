@@ -1,4 +1,23 @@
-<template>
+<template>       
+<div>
+   <vue-particles
+            color="#dedede"
+            :particleOpacity="0.7"
+            :particlesNumber="88"
+            shapeType="circle"
+            :particleSize="4"
+            linesColor="#dedede"
+            :linesWidth="1"
+            :lineLinked="true"
+            :lineOpacity="0.4"
+            :linesDistance="150"
+            :moveSpeed="3"
+            :hoverEffect="true"
+            hoverMode="grab"
+            :clickEffect="true"
+            clickMode="push"
+        />
+</div>
   <div class="app-container">
     <el-row>
       <el-col :span="12" class="card-box">
@@ -200,8 +219,6 @@
   }
 </style>
 <script>
-import { getServer } from "@/api/monitor";
-
 export default {
   data() {
     return {
@@ -218,8 +235,8 @@ export default {
   methods: {
     /** 查询服务器信息 */
     getList() {
-      getServer().then(response => {
-        this.server = response.data;
+      this.$get("/comm/monitor").then(res => {
+        this.server = res.data;
         this.loading.close();
       });
     },
