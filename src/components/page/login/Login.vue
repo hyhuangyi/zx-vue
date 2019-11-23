@@ -71,6 +71,7 @@ export default {
                             localStorage.setItem('userId', res.data.userId);
                             localStorage.setItem('roleList', JSON.stringify(res.data.roleList));
                             localStorage.setItem('menuList', JSON.stringify(res.data.menuVOList));
+                            localStorage.setItem("token",res.data.token);
                             this.$router.push('/');
                         } else {
                             this.$message.error(res.msg);

@@ -6,29 +6,26 @@ import { Loading } from 'element-ui'
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL =globalApi.baseURL;
+//设置传输类型(json,form表单)
+axios.defaults.headers = {
+// "content-type": "application/json"         
+"content-type": "application/x-www-form-urlencoded"        
+}
+// axios.defaults.withCredentials = true
 
-// axios.defaults.headers = {
-//"content-type": "application/json",           // 设置传输类型(json,form表单)
-// }
-
-// //http request 拦截器
-// axios.interceptors.request.use(
-//   config => {
-//     const token = getCookie('名称'); //注意使用的时候需要引入cookie方法，推荐js-cookie
-//     config.data = JSON.stringify(config.data);
-//     config.headers = {
-//       'Content-Type':'application/json',
-//       'Access-Control-Allow-Origin': '*'
-//     }
-//     // if(token){
-//     //   config.params = {'token':token}
-//     // }
-//     return config;
-//   },
-//   error => {
-//     return Promise.reject(err);
-//   }
-// );
+//http request 拦截器
+axios.interceptors.request.use(
+  config => {
+    config.headers = {
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+      'Authorization':localStorage.getItem('token')
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(err);
+  }
+);
 
 
 // //http response 拦截器

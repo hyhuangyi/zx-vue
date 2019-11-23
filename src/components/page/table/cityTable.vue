@@ -18,7 +18,7 @@
                 <!-- <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
                     <el-option key="1" label="广东省" value="广东省"></el-option>
                     <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select> -->
+                </el-select>-->
                 <el-input v-model="query.name" placeholder="城市名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
@@ -64,7 +64,6 @@
 </template>
 
 <script>
-
 export default {
     name: 'cityTable',
     data() {
@@ -90,10 +89,14 @@ export default {
     methods: {
         // 获取数据
         getData() {
-            this.$get('/comm/city/list',false,this.query).then(res => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.pageTotal = res.data.total || 50;
+            this.$get('/city/list', false, this.query).then(res => {
+                if (res.code == 0) {
+                    this.$message.error(res.msg);
+                } else {
+                    console.log(res);
+                    this.tableData = res.data.records;
+                    this.pageTotal = res.data.total || 50;
+                }
             });
         },
         // 触发搜索按钮
@@ -101,15 +104,15 @@ export default {
             this.$set(this.query, 'current', 1);
             this.getData();
         },
-        
+
         // 改变当前页数(current)大小
         handlePageChange(val) {
             this.$set(this.query, 'current', val);
             this.getData();
         },
         //改变每页条数(size)大小
-        handleSizeChage(val){
-            this.$set(this.query,"size",val);
+        handleSizeChage(val) {
+            this.$set(this.query, 'size', val);
             this.getData();
         },
         // 删除操作
