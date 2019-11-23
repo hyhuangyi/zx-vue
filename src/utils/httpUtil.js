@@ -6,6 +6,7 @@ import { Loading } from 'element-ui'
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL =globalApi.baseURL;
+
 //设置传输类型(json,form表单)
 axios.defaults.headers = {
 // "content-type": "application/json"         
@@ -16,6 +17,7 @@ axios.defaults.headers = {
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
+    //全局设置header(token)
     config.headers = {
       'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
       'authorization':localStorage.getItem('token')
@@ -31,9 +33,10 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   config => {
-    console.log(config);
-    console.log(config);
-    localStorage.setItem('token',config.headers.authorization)
+    //刷新token
+    if(config.headers.authorization){
+      localStorage.setItem('token',config.headers.authorization)
+    }
     return config;
   },
   error => {
@@ -91,7 +94,7 @@ export function get(url,isLoad,params={}){
               tryHideFullScreenLoading();
             }
           },err => {
-            reject(err);
+            // reject(err);
             if(isLoad){
               tryHideFullScreenLoading();
             }
