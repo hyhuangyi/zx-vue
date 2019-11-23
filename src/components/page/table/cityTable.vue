@@ -90,12 +90,12 @@ export default {
         // 获取数据
         getData() {
             this.$get('/city/list', false, this.query).then(res => {
-                if (res.code == 0) {
-                    this.$message.error(res.msg);
-                } else {
+                if (res.code == 200) {
                     console.log(res);
                     this.tableData = res.data.records;
                     this.pageTotal = res.data.total || 50;
+                } else {
+                    this.$message.error(res.msg);
                 }
             });
         },
