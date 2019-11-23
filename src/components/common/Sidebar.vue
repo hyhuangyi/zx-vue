@@ -23,8 +23,10 @@
                                 :index="subItem.menuUrl"
                                 :key="subItem.menuUrl"
                             >
-                                <i :class="subItem.icon"></i>
-                                <template slot="title">{{ subItem.menuName }}</template>
+                                <template slot="title">
+                                    <i :class="subItem.icon"></i>
+                                    <span slot="title">{{ subItem.menuName }}</span>
+                                </template>
                                 <el-menu-item
                                     v-for="(threeItem,i) in subItem.subMenu"
                                     :key="i"
