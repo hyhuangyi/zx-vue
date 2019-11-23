@@ -18,7 +18,7 @@ axios.interceptors.request.use(
   config => {
     config.headers = {
       'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-      'Authorization':localStorage.getItem('token')
+      'authorization':localStorage.getItem('token')
     }
     return config;
   },
@@ -28,21 +28,18 @@ axios.interceptors.request.use(
 );
 
 
-// //http response 拦截器
-// axios.interceptors.response.use(
-//   response => {
-//     if(response.data.errCode ==2){
-//       router.push({
-//         path:"/managment",
-//         querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
-//       })
-//     }
-//     return response;
-//   },
-//   error => {
-//     return Promise.reject(error)
-//   }
-// )
+//http response 拦截器
+axios.interceptors.response.use(
+  config => {
+    console.log(config);
+    console.log(config);
+    localStorage.setItem('token',config.headers.authorization)
+    return config;
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 
 
 /**
