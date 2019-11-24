@@ -89,9 +89,8 @@ export default {
     methods: {
         // 获取数据
         getData() {
-            this.$get('/city/list', false, this.query).then(res => {
+            this.$get('/city/list', this.query,true).then(res => {
                 if (res.code == 200) {
-                    console.log(res);
                     this.tableData = res.data.records;
                     this.pageTotal = res.data.total || 50;
                 } else {

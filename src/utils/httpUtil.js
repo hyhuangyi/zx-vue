@@ -1,30 +1,36 @@
 import axios from 'axios';
 import qs from 'qs';
 import globalApi from './globalApi';
-import { Message } from 'element-ui';
-import { Loading } from 'element-ui'
+import {
+  Message,
+  Loading
+} from 'element-ui';
 
-axios.defaults.timeout = 5000;
-axios.defaults.baseURL =globalApi.baseURL;
+import router from '../router';
 
-//设置传输类型(json,form表单)
-axios.defaults.headers = {
-// "content-type": "application/json"         
-"content-type": "application/x-www-form-urlencoded"        
-}
+//超时时间15秒
+axios.defaults.timeout = 15000;
+//baseURL
+axios.defaults.baseURL = globalApi.baseURL;
+//是否携带cookie
 // axios.defaults.withCredentials = true
 
 //http request 拦截器
 axios.interceptors.request.use(
-  config => {
-    //全局设置header(token)
-    config.headers = {
-      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-      'authorization':localStorage.getItem('token')
+  request => {
+    if (request.isShow === true) {
+      showFullScreenLoading();
     }
-    return config;
+    // console.log(request)
+    //全局设置header(token)
+    request.headers = {
+      "content-type": "application/x-www-form-urlencoded",
+      'authorization': localStorage.getItem('token')
+    }
+    return request;
   },
   error => {
+    tryHideFullScreenLoading();
     return Promise.reject(err);
   }
 );
@@ -32,46 +38,51 @@ axios.interceptors.request.use(
 
 //http response 拦截器
 axios.interceptors.response.use(
-  config => {
+  response => {
+    // console.log(response)
     //刷新token
-    if(config.headers.authorization){
-      localStorage.setItem('token',config.headers.authorization)
+    if (response.headers.authorization) {
+      localStorage.setItem('token', response.headers.authorization);
     }
-    return config;
+    //如果code=TOKEN_EXPIRE 重定向到登录页
+    if (response.data.code == 'TOKEN_EXPIRE') {
+      //清空localStorage
+      localStorage.clear();
+      router.push("/login");
+    }
+    if (response.config.isShow === true) {
+      tryHideFullScreenLoading();
+    }
+    return response;
   },
   error => {
+    tryHideFullScreenLoading();
     return Promise.reject(error)
   }
 )
 
 
 /**
- * 封装get方法
+ * 封装get方法 
  * @param url
  * @param data
+ * @param isShow 是否loading  boolean  true 或者 false
  * @returns {Promise}
  */
-export function get(url,isLoad,params={}){
-  return new Promise((resolve,reject) => {
-    if(isLoad){
-      showFullScreenLoading();
-    }
-    axios.get(url,{
-      params:params
-    })
-    .then(response => {
-      resolve(response.data);
-      if(isLoad){
-        tryHideFullScreenLoading();
-      }
-    })
-    .catch(err => {
-      reject(err);
-      if(isLoad){
-        tryHideFullScreenLoading();
-      }
-      Message.error(err.stack);
-    })
+export function get(url, data = {}, isShow) {
+  return new Promise((resolve, reject) => {
+
+    axios.get(url, {
+        params: data,
+        isShow: isShow
+      })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(err => {
+        reject(err);
+        Message.error(err.stack);
+      })
   })
 }
 
@@ -80,28 +91,21 @@ export function get(url,isLoad,params={}){
  * 封装post请求
  * @param url
  * @param data
+ * @param isShow 是否loading {isShow:true} 或者 {isShow:false}
  * @returns {Promise}
  */
- export function post(url,isLoad,data = {}){
-   return new Promise((resolve,reject) => {
-    if(isLoad){
-      showFullScreenLoading();
-    }
-     axios.post(url,qs.stringify(data))
-          .then(response => {
-            resolve(response.data);
-            if(isLoad){
-              tryHideFullScreenLoading();
-            }
-          },err => {
-            // reject(err);
-            if(isLoad){
-              tryHideFullScreenLoading();
-            }
-            Message.error(err.stack);
-          })
-   })
- }
+export function post(url, data = {}, isShow = {}) {
+  return new Promise((resolve, reject) => {
+    axios.post(url, qs.stringify(data), isShow)
+      .then(response => {
+        resolve(response.data);
+
+      }, err => {
+        reject(err);
+        Message.error(err.stack);
+      })
+  })
+}
 
 
 let needLoadingRequestCount = 0;
@@ -126,7 +130,7 @@ let loading;
 function startLoading() {
   loading = Loading.service({
     lock: true,
-    text: '加载中……',
+    text: '努力加载中....',
     background: 'rgba(0, 0, 0, 0.7)'
   })
 }

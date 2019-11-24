@@ -213,7 +213,7 @@ export default {
   methods: {
     /** 查询服务器信息 */
     getList() {
-      this.$get("/comm/monitor",true).then(res => {
+      this.$get("/comm/monitor",null,true).then(res => {
         this.server = res.data;
       })
     }
