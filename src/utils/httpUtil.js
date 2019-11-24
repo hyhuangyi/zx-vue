@@ -44,8 +44,8 @@ axios.interceptors.response.use(
     if (response.headers.authorization) {
       localStorage.setItem('token', response.headers.authorization);
     }
-    //如果code=TOKEN_EXPIRE 重定向到登录页
-    if (response.data.code == 'TOKEN_EXPIRE') {
+    //如果token失效或者被踢 重定向到登录页
+    if (response.data.code == 'TOKEN_EXPIRE' || response.data.code=='USER_KICKOUT') {
       //清空localStorage
       localStorage.clear();
       router.push("/login");
