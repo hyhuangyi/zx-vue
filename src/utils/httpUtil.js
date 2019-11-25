@@ -13,7 +13,7 @@ axios.defaults.timeout = 15000;
 //baseURL
 axios.defaults.baseURL = globalApi.baseURL;
 //是否携带cookie
-// axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 
 //http request 拦截器
 axios.interceptors.request.use(
@@ -45,7 +45,7 @@ axios.interceptors.response.use(
       localStorage.setItem('token', response.headers.authorization);
     }
     //如果token失效或者被踢 重定向到登录页
-    if (response.data.code == 'TOKEN_EXPIRE' || response.data.code=='USER_KICKOUT') {
+    if (response.data.code == 'TOKEN_EXPIRE' || response.data.code == 'USER_KICKOUT') {
       //清空localStorage
       localStorage.clear();
       router.push("/login");
@@ -57,7 +57,20 @@ axios.interceptors.response.use(
   },
   error => {
     tryHideFullScreenLoading();
-    return Promise.reject(error)
+    //处理错误
+    if (error && error.response) {
+      switch (error.response.status) {
+        case 401:
+          Message.error("未传TOKEN");
+          router.push("/login")
+          break;
+        case 404:
+          Message.error("请求错误，未找到资源");
+          router.push("/404")
+          break;
+      }
+    }
+    return Promise.reject(error);
   }
 )
 
@@ -73,15 +86,14 @@ export function get(url, data = {}, isShow) {
   return new Promise((resolve, reject) => {
 
     axios.get(url, {
-        params: data,
-        isShow: isShow
-      })
+      params: data,
+      isShow: isShow
+    })
       .then(response => {
         resolve(response.data);
       })
       .catch(err => {
         reject(err);
-        Message.error(err.stack);
       })
   })
 }
@@ -100,9 +112,9 @@ export function post(url, data = {}, isShow = {}) {
       .then(response => {
         resolve(response.data);
 
-      }, err => {
+      })
+      .catch(err => {
         reject(err);
-        Message.error(err.stack);
       })
   })
 }
