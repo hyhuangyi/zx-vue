@@ -91,8 +91,12 @@ export default new Router({
                     path: '/403',
                     component: () => import(/* webpackChunkName: "icon" */ '../components/page/error/403.vue'),
                     meta: { title: '403' }
+                },
+                {
+                    path: '/fy',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/fyReport.vue'),
+                    meta: { title: '帆软报表' }
                 }
-
             ]
         },
         {

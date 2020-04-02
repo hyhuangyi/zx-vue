@@ -6,6 +6,7 @@ import globalApi from './utils/globalApi';
 import axios from 'axios';
 import qs from 'qs'
 import {post,get} from './utils/httpUtil'
+import VueJsonp from 'vue-jsonp'
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
@@ -21,6 +22,7 @@ Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(VueParticles)
 Vue.use(VueI18n);
+Vue.use(VueJsonp);
 Vue.use(ElementUI, {
     size: 'small'
 });

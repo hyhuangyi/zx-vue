@@ -51,7 +51,7 @@ export default {
     data: function() {
         return {
             param: {
-                username: 'admin',
+                username: 'zx',
                 password: '123456'
             },
             rules: {
@@ -72,6 +72,7 @@ export default {
                             localStorage.setItem('roleList', JSON.stringify(res.data.roleList));
                             localStorage.setItem('menuList', JSON.stringify(res.data.menuVOList));
                             localStorage.setItem("token",res.data.token);
+                            // this.fyReportLogin();
                             this.$router.push('/');
                         } else {
                             this.$message.error(res.msg);
@@ -83,6 +84,25 @@ export default {
                     return false;
                 }
             });
+        },
+        //帆远report单点登录
+        fyReportLogin(){
+             var username = this.param.username;
+             var password = this.param.password;
+            if (username === "") {
+                window.alert("请输入用户名");
+                return false;
+            }
+            if (password === "") {
+                window.alert("请输入密码");
+                return false;
+            }
+            var url = "http://localhost:8075/webroot/decision/login/cross/domain" + "?fine_username=" + username + "&fine_password=" + password+"&validity=" + -2;
+            this.$jsonp(url).then(res => {
+                　　console.log(res)
+                }).catch(err => {
+                　　console.log(err)
+                })
         }
     }
 };

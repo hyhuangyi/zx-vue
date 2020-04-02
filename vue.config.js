@@ -4,6 +4,7 @@ module.exports = {
     productionSourceMap: false,
     outputDir: 'dist',
     devServer: {
+        disableHostCheck: true,
         open: true,//启动项目后自动开启浏览器
         host: '0.0.0.0',//ip
         port: 8087,//端口号
