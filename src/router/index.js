@@ -93,9 +93,9 @@ export default new Router({
                     meta: { title: '403' }
                 },
                 {
-                    path: '/fy',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/fyReport.vue'),
-                    meta: { title: '帆软报表' }
+                    path: '/fund',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/fund.vue'),
+                    meta: { title: '基金列表' }
                 }
             ]
         },
