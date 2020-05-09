@@ -119,6 +119,40 @@ export function post(url, data = {}, isShow = {}) {
   })
 }
 
+//直接在mian.js 直接Vue.use()
+
+// export default {
+//   install(Vue)  {
+//       Vue.prototype.get =function  get(url, data = {}, isShow) {
+//         return new Promise((resolve, reject) => {
+      
+//           axios.get(url, {
+//             params: data,
+//             isShow: isShow
+//           })
+//             .then(response => {
+//               resolve(response.data);
+//             })
+//             .catch(err => {
+//               reject(err);
+//             })
+//         })
+//       }
+//       Vue.prototype.post =function  post(url, data = {}, isShow = {}) {
+//         return new Promise((resolve, reject) => {
+//           axios.post(url, qs.stringify(data), isShow)
+//             .then(response => {
+//               resolve(response.data);
+      
+//             })
+//             .catch(err => {
+//               reject(err);
+//             })
+//         })
+//       }
+//   }
+// }
+
 
 let needLoadingRequestCount = 0;
 //加载
