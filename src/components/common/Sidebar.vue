@@ -60,16 +60,13 @@ export default {
     data() {
         return {
             collapse: false,
-            items: JSON.parse(localStorage.getItem('menuList'))
+            items: []
         };
     },
 
     methods: {
         getList() {
-            menus().then(response => {
-                console.log(response.data);
-                this.items = response.data;
-            });
+         this.items =  JSON.parse(localStorage.getItem('menuList'));
         }
     },
     computed: {
@@ -78,8 +75,10 @@ export default {
         }
     },
     created() {
+        this.getList();
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
+            console.log(msg)
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });
