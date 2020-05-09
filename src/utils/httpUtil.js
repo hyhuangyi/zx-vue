@@ -119,7 +119,7 @@ export function post(url, data = {}, isShow = {}) {
   })
 }
 
-//直接在mian.js 直接Vue.use()
+//直接在mian.js 直接Vue.use() //使用Vue.use() 插件必须要提供一个公开的install()方法
 
 // export default {
 //   install(Vue)  {
