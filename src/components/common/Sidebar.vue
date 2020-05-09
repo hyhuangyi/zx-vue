@@ -78,7 +78,7 @@ export default {
         this.getList();
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
-            console.log(msg)
+            // console.log(msg)
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });
