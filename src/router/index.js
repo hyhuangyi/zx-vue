@@ -3,6 +3,12 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
+// 解决在使用ElementUI时点击同一个路由，页面报错
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 export default new Router({
     routes: [
         {
@@ -77,7 +83,7 @@ export default new Router({
                     meta: { title: '接口文档' }
                 }, {
                     path: '/druid',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/druid.vue'),
+                    component: () => import(/* webpackChunkName: "druid" */ '../components/page/sys/druid.vue'),
                     meta: { title: '数据监控' }
                 }, {
                     path: '/operate',
@@ -85,16 +91,16 @@ export default new Router({
                     meta: { title: '操作日志' }
                 }, {
                     path: '/404',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/error/404.vue'),
+                    component: () => import(/* webpackChunkName: "404" */ '../components/page/error/404.vue'),
                     meta: { title: '404' }
                 }, {
                     path: '/403',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/error/403.vue'),
+                    component: () => import(/* webpackChunkName: "403" */ '../components/page/error/403.vue'),
                     meta: { title: '403' }
                 },
                 {
                     path: '/fund',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/sys/fund.vue'),
+                    component: () => import(/* webpackChunkName: "fund" */ '../components/page/sys/fund.vue'),
                     meta: { title: '基金列表' }
                 }
             ]

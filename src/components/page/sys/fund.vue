@@ -10,11 +10,9 @@
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
             >
-                <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="fundcode" label="基金代码" width="155" align="center"></el-table-column>
-                <el-table-column prop="name" label="基金名称" align="center"></el-table-column>
+                <el-table-column prop="fundcode" label="基金代码"  align="center"></el-table-column>
+                <el-table-column prop="name" label="基金名称"  width="240" align="center"></el-table-column>
                 <el-table-column prop="jzrq" label="净值日期" align="center"></el-table-column>
                 <el-table-column prop="dwjz" label="单位净值"  sortable align="center"></el-table-column>
                   <el-table-column prop="gztime" label="估值时间" align="center"></el-table-column>
