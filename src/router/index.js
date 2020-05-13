@@ -28,7 +28,7 @@ export default new Router({
 
                 {
                     path: '/table',
-                    component: () => import(/* webpackChunkName: "cityTable" */ '../components/page/table/cityTable.vue'),
+                    component: () => import(/* webpackChunkName: "cityTable" */ '../components/page/sys/cityTable.vue'),
                     meta: { title: '城市列表' }
                 },
                 {
@@ -102,6 +102,10 @@ export default new Router({
                     path: '/fund',
                     component: () => import(/* webpackChunkName: "fund" */ '../components/page/sys/fund.vue'),
                     meta: { title: '基金列表' }
+                }, {
+                    path: '/role',
+                    component: () => import(/* webpackChunkName: "role" */ '../components/page/sys/role.vue'),
+                    meta: { title: '角色管理' }
                 }
             ]
         },
