@@ -12,6 +12,7 @@
                     value-format="yyyy-MM-dd"
                 ></el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button type="primary"  @click="handlePermission(null)" style="float:right;">新增角色</el-button>
             </div>
             <el-table
                 :data="tableData"
