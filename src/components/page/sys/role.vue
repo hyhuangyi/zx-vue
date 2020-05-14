@@ -65,7 +65,7 @@
             <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
                 <el-form ref="form" :model="form" :rules="rules" label-width="80px">
                     <el-form-item label="角色名称" prop="roleName">
-                        <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+                        <el-input v-model="form.roleName" placeholder="请输入角色名称" :disabled.sync="editDisable" />
                     </el-form-item>
 
                     <el-form-item label="菜单权限">
@@ -117,6 +117,8 @@ export default {
             title: '',
             // 是否显示弹出层
             open: false,
+            //编辑是否可操作
+            editDisable:false,
             // 菜单列表
             menuOptions: [],
             // 角色表格数据
@@ -246,6 +248,7 @@ export default {
         },
         // 取消按钮
         cancel() {
+            this.editDisable=false;
             this.open = false;
             this.reset();
         },
@@ -267,6 +270,7 @@ export default {
             this.reset();
             this.getMenuTreeselect();
             this.open = true;
+             this.editDisable=false;
             this.title = '添加角色';
         },
         /** 修改按钮操作 */
@@ -280,6 +284,8 @@ export default {
                 if (response.code == 200) {
                     this.form = response.data;
                     this.open = true;
+                     this.editDisable=true;
+                    this.ds=true;
                     this.title = '修改角色';
                 } else {
                     this.$message.error(response.msg);
@@ -295,7 +301,8 @@ export default {
                         this.form.menuList = this.getMenuAllCheckedKeys();
                         this.$post('/role/save', this.form, true).then(response => {
                             if (response.code == 200) {
-                                this.open = false;
+                                this.open = false; 
+                                this.editDisable=false;
                                 this.getData();
                                 this.$message.success('修改成功');
                             } else {
@@ -307,6 +314,7 @@ export default {
                         this.$post('/role/save', this.form, true).then(response => {
                             if (response.code == 200) {
                                 this.open = false;
+                                 this.editDisable=false;
                                 this.getData();
                                 this.$message.success('新增成功');
                             } else {
