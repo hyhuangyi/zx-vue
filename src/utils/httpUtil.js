@@ -18,6 +18,7 @@ axios.defaults.withCredentials = true
 //http request 拦截器
 axios.interceptors.request.use(
   request => {
+    // console.log(request.isShow==true)
     if (request.isShow === true) {
       showFullScreenLoading();
     }
@@ -103,12 +104,12 @@ export function get(url, data = {}, isShow) {
  * 封装post请求
  * @param url
  * @param data
- * @param isShow 是否loading {isShow:true} 或者 {isShow:false}
+ * @param isShow  是否loading  boolean  true 或者 false
  * @returns {Promise}
  */
-export function post(url, data = {}, isShow = {}) {
+export function post(url, data = {}, isShow ) {
   return new Promise((resolve, reject) => {
-    axios.post(url, qs.stringify(data), isShow)
+    axios.post(url, qs.stringify(data), {isShow:isShow})
       .then(response => {
         resolve(response.data);
 
@@ -138,9 +139,9 @@ export function post(url, data = {}, isShow = {}) {
 //             })
 //         })
 //       }
-//       Vue.prototype.post =function  post(url, data = {}, isShow = {}) {
+//       Vue.prototype.post =function  post(url, data = {}, isShow) {
 //         return new Promise((resolve, reject) => {
-//           axios.post(url, qs.stringify(data), isShow)
+//           axios.post(url, qs.stringify(data), {isShow:isShow})
 //             .then(response => {
 //               resolve(response.data);
       

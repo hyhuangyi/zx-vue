@@ -64,7 +64,7 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    this.$post('/comm/login',this.param,{isShow:true}).then(res => {
+                    this.$post('/comm/login',this.param,true).then(res => {
                         if (res.code == 200) {
                             this.$message.success('登录成功');
                             localStorage.setItem('username', this.param.username);

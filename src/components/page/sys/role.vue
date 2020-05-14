@@ -12,7 +12,7 @@
                     value-format="yyyy-MM-dd"
                 ></el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-                <el-button type="primary"  @click="handlePermission(null)" style="float:right;">新增角色</el-button>
+                <el-button type="primary" @click="handleAdd" style="float:right;">新增角色</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -44,7 +44,7 @@
                             type="text"
                             icon="el-icon-edit"
                             class="green"
-                            @click="handlePermission(scope.row)"
+                            @click="handleUpdate(scope.row)"
                         >数据权限</el-button>
                     </template>
                 </el-table-column>
@@ -59,6 +59,34 @@
                     @current-change="handlePageChange"
                     @size-change="handleSizeChage"
                 ></el-pagination>
+            </div>
+            <div>
+            <!-- 添加或修改角色配置对话框 -->
+            <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+                <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                    <el-form-item label="角色名称" prop="roleName">
+                        <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+                    </el-form-item>
+
+                    <el-form-item label="菜单权限">
+                        <el-tree
+                            :data="menuOptions"
+                            show-checkbox
+                            ref="menu"
+                            node-key="id"
+                            empty-text="加载中，请稍后"
+                            :props="defaultProps"
+                        ></el-tree>
+                    </el-form-item>
+                    <el-form-item label="备注">
+                        <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="submitForm">确 定</el-button>
+                    <el-button @click="cancel">取 消</el-button>
+                </div>
+            </el-dialog>
             </div>
         </div>
     </div>
@@ -77,14 +105,36 @@ export default {
                 current: 1,
                 size: 10
             },
+            // 遮罩层
+            loading: true,
+            // 选中数组
+            ids: [],
+            // 非单个禁用
+            single: true,
+            // 非多个禁用
+            multiple: true,
+            // 弹出层标题
+            title: '',
+            // 是否显示弹出层
+            open: false,
+            // 菜单列表
+            menuOptions: [],
+            // 角色表格数据
             tableData: [],
-            multipleSelection: [],
-            delList: [],
-            editVisible: false,
+            // 总条数
             pageTotal: 0,
-            form: {},
             idx: -1,
-            id: -1
+            id: -1,
+            // 表单参数
+            form: {},
+            defaultProps: {
+                children: 'subMenu',
+                label: 'menuName'
+            },
+            // 表单校验
+            rules: {
+                roleName: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }]
+            }
         };
     },
     created() {
@@ -94,7 +144,7 @@ export default {
         // 获取数据
         getData() {
             this.handDate();
-            this.$get('/role/list', this.query, { isShow: true }).then(res => {
+            this.$get('/role/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
                     this.pageTotal = res.data.total || 50;
@@ -143,7 +193,7 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    this.$post('/role/state', { id: val.id, type: state }, { isShow: true }).then(res => {
+                    this.$post('/role/state', { id: val.id, type: state }, true).then(res => {
                         if (res.code == 200) {
                             this.getData();
                             this.$message({
@@ -164,8 +214,114 @@ export default {
                     });
                 });
         },
-        handlePermission(val){
-            console.log(val);
+        /** 查询菜单树结构 */
+        getMenuTreeselect() {
+            this.$get('/role/menus', {}, true).then(res => {
+                if (res.code == 200) {
+                    this.menuOptions = res.data;
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
+        },
+        // 所有菜单节点数据
+        getMenuAllCheckedKeys() {
+            // 目前被选中的菜单节点
+            let checkedKeys = this.$refs.menu.getHalfCheckedKeys();
+            // 半选中的菜单节点
+            let halfCheckedKeys = this.$refs.menu.getCheckedKeys();
+            checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
+            return checkedKeys.join(',');
+        },
+        /** 根据角色ID查询菜单树结构 */
+        getRoleMenuTreeselect(id) {
+            this.getMenuTreeselect();
+            this.$get('/role/query', { id: id }, true).then(response => {
+                if (response.code == 200) {
+                    this.$refs.menu.setCheckedKeys(response.data.menuList);
+                } else {
+                    this.$message.error(response.msg);
+                }
+            });
+        },
+        // 取消按钮
+        cancel() {
+            this.open = false;
+            this.reset();
+        },
+        // 表单重置
+        reset() {
+            if (this.$refs.menu != undefined) {
+                this.$refs.menu.setCheckedKeys([]);
+            }
+            this.form = {
+                id: null,
+                roleName: null,
+                menuList: '',
+                remark: ''
+            };
+            this.resetForm('form');
+        },
+        /** 新增按钮操作 */
+        handleAdd() {
+            this.reset();
+            this.getMenuTreeselect();
+            this.open = true;
+            this.title = '添加角色';
+        },
+        /** 修改按钮操作 */
+        handleUpdate(row) {
+            this.reset();
+            const id = row.id;
+            this.$nextTick(() => {
+                this.getRoleMenuTreeselect(id);
+            });
+            this.$get('role/query', { id: id }, true).then(response => {
+                if (response.code == 200) {
+                    this.form = response.data;
+                    this.open = true;
+                    this.title = '修改角色';
+                } else {
+                    this.$message.error(response.msg);
+                }
+            });
+        },
+        //提交表单 有id编辑 无id新增
+        submitForm: function() {
+            this.$refs['form'].validate(valid => {
+                if (valid) {
+                    // console.log(this.form);
+                    if (this.form.id != undefined) {
+                        this.form.menuList = this.getMenuAllCheckedKeys();
+                        this.$post('/role/save', this.form, true).then(response => {
+                            if (response.code == 200) {
+                                this.open = false;
+                                this.getData();
+                                this.$message.success('修改成功');
+                            } else {
+                                this.$message.error(response.msg);
+                            }
+                        });
+                    } else {
+                        this.form.menuList = this.getMenuAllCheckedKeys();
+                        this.$post('/role/save', this.form, true).then(response => {
+                            if (response.code == 200) {
+                                this.open = false;
+                                this.getData();
+                                this.$message.success('新增成功');
+                            } else {
+                                this.$message.error(response.msg);
+                            }
+                        });
+                    }
+                }
+            });
+        },
+        // 表单重置
+        resetForm(refName) {
+            if (this.$refs[refName]) {
+                this.$refs[refName].resetFields();
+            }
         }
     }
 };
