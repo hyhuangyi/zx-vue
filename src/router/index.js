@@ -106,6 +106,10 @@ export default new Router({
                     path: '/role',
                     component: () => import(/* webpackChunkName: "role" */ '../components/page/sys/role.vue'),
                     meta: { title: '角色管理' }
+                }, {
+                    path: '/user',
+                    component: () => import(/* webpackChunkName: "user" */ '../components/page/sys/user.vue'),
+                    meta: { title: '用户管理' }
                 }
             ]
         },

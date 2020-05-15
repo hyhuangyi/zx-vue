@@ -46,6 +46,12 @@
                             class="green"
                             @click="handleUpdate(scope.row)"
                         >数据权限</el-button>
+                        <el-button
+                            size="mini"
+                            type="text"
+                            icon="el-icon-delete"
+                            @click="handleDelete(scope.row)"
+                        >删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -61,32 +67,36 @@
                 ></el-pagination>
             </div>
             <div>
-            <!-- 添加或修改角色配置对话框 -->
-            <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-                <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-                    <el-form-item label="角色名称" prop="roleName">
-                        <el-input v-model="form.roleName" placeholder="请输入角色名称" :disabled.sync="editDisable" />
-                    </el-form-item>
+                <!-- 添加或修改角色配置对话框 -->
+                <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+                    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                        <el-form-item label="角色名称" prop="roleName">
+                            <el-input
+                                v-model="form.roleName"
+                                placeholder="请输入角色名称"
+                                :disabled.sync="editDisable"
+                            />
+                        </el-form-item>
 
-                    <el-form-item label="菜单权限">
-                        <el-tree
-                            :data="menuOptions"
-                            show-checkbox
-                            ref="menu"
-                            node-key="id"
-                            empty-text="加载中，请稍后"
-                            :props="defaultProps"
-                        ></el-tree>
-                    </el-form-item>
-                    <el-form-item label="备注">
-                        <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
-                    </el-form-item>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="submitForm">确 定</el-button>
-                    <el-button @click="cancel">取 消</el-button>
-                </div>
-            </el-dialog>
+                        <el-form-item label="菜单权限">
+                            <el-tree
+                                :data="menuOptions"
+                                show-checkbox
+                                ref="menu"
+                                node-key="id"
+                                empty-text="加载中，请稍后"
+                                :props="defaultProps"
+                            ></el-tree>
+                        </el-form-item>
+                        <el-form-item label="备注">
+                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button type="primary" @click="submitForm">确 定</el-button>
+                        <el-button @click="cancel">取 消</el-button>
+                    </div>
+                </el-dialog>
             </div>
         </div>
     </div>
@@ -118,7 +128,7 @@ export default {
             // 是否显示弹出层
             open: false,
             //编辑是否可操作
-            editDisable:false,
+            editDisable: false,
             // 菜单列表
             menuOptions: [],
             // 角色表格数据
@@ -149,7 +159,7 @@ export default {
             this.$get('/role/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
-                    this.pageTotal = res.data.total || 50;
+                    this.pageTotal = res.data.total || 0;
                 } else {
                     this.$message.error(res.msg);
                 }
@@ -248,7 +258,7 @@ export default {
         },
         // 取消按钮
         cancel() {
-            this.editDisable=false;
+            this.editDisable = false;
             this.open = false;
             this.reset();
         },
@@ -265,12 +275,29 @@ export default {
             };
             this.resetForm('form');
         },
+        handleDelete(row) {
+            // 二次确认删除
+            this.$confirm('确定要删除吗？', '提示', {
+                type: 'warning'
+            })
+                .then(() => {
+                    this.$post('/role/del', {id:row.id}, true).then(response => {
+                        if (response.code == 200) {
+                            this.$message.success('删除成功');
+                            this.getData();
+                        } else {
+                            this.$message.error(response.msg);
+                        }
+                    });
+                })
+                .catch(() => {});
+        },
         /** 新增按钮操作 */
         handleAdd() {
             this.reset();
             this.getMenuTreeselect();
             this.open = true;
-             this.editDisable=false;
+            this.editDisable = false;
             this.title = '添加角色';
         },
         /** 修改按钮操作 */
@@ -284,8 +311,7 @@ export default {
                 if (response.code == 200) {
                     this.form = response.data;
                     this.open = true;
-                     this.editDisable=true;
-                    this.ds=true;
+                    this.editDisable = true;
                     this.title = '修改角色';
                 } else {
                     this.$message.error(response.msg);
@@ -301,8 +327,8 @@ export default {
                         this.form.menuList = this.getMenuAllCheckedKeys();
                         this.$post('/role/save', this.form, true).then(response => {
                             if (response.code == 200) {
-                                this.open = false; 
-                                this.editDisable=false;
+                                this.open = false;
+                                this.editDisable = false;
                                 this.getData();
                                 this.$message.success('修改成功');
                             } else {
@@ -314,7 +340,7 @@ export default {
                         this.$post('/role/save', this.form, true).then(response => {
                             if (response.code == 200) {
                                 this.open = false;
-                                 this.editDisable=false;
+                                this.editDisable = false;
                                 this.getData();
                                 this.$message.success('新增成功');
                             } else {

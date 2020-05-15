@@ -48,7 +48,7 @@ export default {
     methods: {
         // 获取数据
         getData() {
-            this.$get('/comm/fund/list', this.query,true).then(res => {
+            this.$get('/fund/list', this.query,true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data;
                 } else {

@@ -81,7 +81,7 @@ export default {
             this.$post('/operate/log/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
-                    this.pageTotal = res.data.total || 50;
+                    this.pageTotal = res.data.total || 0;
                 } else {
                     this.$message.error(res.msg);
                 }
