@@ -142,7 +142,7 @@
 
 <script>
 export default {
-    name: 'operateLog',
+    name: 'user',
     data() {
         return {
             query: {

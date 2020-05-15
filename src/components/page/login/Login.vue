@@ -51,8 +51,8 @@ export default {
     data: function() {
         return {
             param: {
-                username: 'zx',
-                password: '123456'
+                username: localStorage.getItem('username'),
+                password: ''
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],

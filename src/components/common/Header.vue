@@ -41,6 +41,7 @@
                         <a href="https://github.com/hyhuangyi/zx-vue.git" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a>
+                        <el-dropdown-item divided @click.native="changePassword">修改密码</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -56,7 +57,7 @@ export default {
             collapse: false,
             fullscreen: false,
             name: 'zx',
-            message: 2
+            message: 2,
         };
     },
     computed: {
@@ -69,9 +70,12 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
-                localStorage.removeItem('username');
+                localStorage.removeItem('token');
                 this.$router.push('/login');
             }
+        },
+        changePassword() {
+            this.$router.push('/pwd')
         },
         // 侧边栏折叠
         collapseChage() {
