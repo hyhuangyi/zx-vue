@@ -201,6 +201,7 @@
 </style>
 <script>
 export default {
+  name:"monitor",
   data() {
     return {
       // 服务器信息

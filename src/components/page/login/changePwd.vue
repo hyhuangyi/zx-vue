@@ -42,14 +42,18 @@ export default {
     created() {},
     methods: {
         onSubmit() {
-            let userId = localStorage.getItem('userId');
-            this.form.id = userId;
-            this.$post('/user/change/psw', this.form, true).then(response => {
-                if (response.code == 200) {
-                    this.$router.push('/login');
-                    this.$message.success('修改成功,请重新登录');
-                } else {
-                    this.$message.error(response.msg);
+            this.$refs['form'].validate(valid => {
+                if (valid) {
+                    let userId = localStorage.getItem('userId');
+                    this.form.id = userId;
+                    this.$post('/user/change/psw', this.form, true).then(response => {
+                        if (response.code == 200) {
+                            this.$router.push('/login');
+                            this.$message.success('修改成功,请重新登录');
+                        } else {
+                            this.$message.error(response.msg);
+                        }
+                    });
                 }
             });
         }
@@ -57,7 +61,11 @@ export default {
 };
 </script>
 <style scoped>
-
+.user-account-key {
+    margin: 30px auto;
+    width: 50%;
+    text-align: center;
+}
 </style>
 
 
