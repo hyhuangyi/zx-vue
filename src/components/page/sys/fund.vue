@@ -96,7 +96,7 @@ export default {
         //修改数据
         handleEdit(index, row) {
             if (this.oldVal[index] == row.remark) {
-                 this.$set(this.show, index, false);
+                this.$set(this.show, index, false);
                 return;
             } else {
                 this.$post('/fund/edit', { id: row.id, remark: row.remark }, true).then(res => {
