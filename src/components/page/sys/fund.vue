@@ -2,13 +2,8 @@
     <div>
         <div class="container">
             <div class="handle-box">
-                <el-button
-                    type="primary"
-                    round
-                    icon="el-icon-search"
-                    @click="handleSearch"
-                    style="float:right;"
-                >搜索</el-button>
+                <el-input v-model="query.name" placeholder="基金名" class="handle-input mr10"></el-input>
+                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -159,34 +154,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.handle-box {
-    margin-bottom: 20px;
-}
-
-.handle-select {
-    width: 120px;
-}
-
-.handle-input {
-    width: 300px;
-    display: inline-block;
-}
-.table {
-    width: 100%;
-    font-size: 14px;
-}
-.red {
-    color: #ff0000;
-}
-.mr10 {
-    margin-right: 10px;
-}
-.table-td-thumb {
-    display: block;
-    margin: auto;
-    width: 40px;
-    height: 40px;
-}
-</style>

@@ -6,7 +6,7 @@
                     <i class="el-icon-lx-cascades"></i> 基础表格
                 </el-breadcrumb-item>
             </el-breadcrumb>
-        </div> -->
+        </div>-->
         <div class="container">
             <div class="handle-box">
                 <el-button
@@ -42,7 +42,6 @@
                         <el-button
                             type="text"
                             icon="el-icon-delete"
-                            class="red"
                             @click="handleDelete(scope.$index, scope.row)"
                         >删除</el-button>
                     </template>
@@ -89,7 +88,7 @@ export default {
     methods: {
         // 获取数据
         getData() {
-            this.$get('/city/list', this.query,true).then(res => {
+            this.$get('/city/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
                     this.pageTotal = res.data.total || 0;
@@ -143,34 +142,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.handle-box {
-    margin-bottom: 20px;
-}
-
-.handle-select {
-    width: 120px;
-}
-
-.handle-input {
-    width: 300px;
-    display: inline-block;
-}
-.table {
-    width: 100%;
-    font-size: 14px;
-}
-.red {
-    color: #ff0000;
-}
-.mr10 {
-    margin-right: 10px;
-}
-.table-td-thumb {
-    display: block;
-    margin: auto;
-    width: 40px;
-    height: 40px;
-}
-</style>

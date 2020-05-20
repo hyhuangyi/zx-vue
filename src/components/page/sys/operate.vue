@@ -13,7 +13,8 @@
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
-                    value-format='yyyy-MM-dd'
+                    value-format="yyyy-MM-dd"
+                    class="handle-date-picker"
                 ></el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
@@ -56,8 +57,8 @@ export default {
             query: {
                 module: '',
                 sedate: '',
-                startDate:null,
-                endDate:null,
+                startDate: null,
+                endDate: null,
                 current: 1,
                 size: 10
             },
@@ -88,13 +89,13 @@ export default {
             });
         },
         //处理日期
-        handDate(){
-            if(this.query.sedate){
-            this.query.startDate=this.query.sedate[0];
-            this.query.endDate=this.query.sedate[1];
-            }else{
-                this.query.startDate='';
-                this.query.endDate='';
+        handDate() {
+            if (this.query.sedate) {
+                this.query.startDate = this.query.sedate[0];
+                this.query.endDate = this.query.sedate[1];
+            } else {
+                this.query.startDate = '';
+                this.query.endDate = '';
             }
         },
         // 触发搜索按钮
@@ -116,34 +117,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.handle-box {
-    margin-bottom: 20px;
-}
-
-.handle-select {
-    width: 120px;
-}
-
-.handle-input {
-    width: 300px;
-    display: inline-block;
-}
-.table {
-    width: 100%;
-    font-size: 14px;
-}
-.red {
-    color: #ff0000;
-}
-.mr10 {
-    margin-right: 10px;
-}
-.table-td-thumb {
-    display: block;
-    margin: auto;
-    width: 40px;
-    height: 40px;
-}
-</style>
