@@ -6,7 +6,7 @@
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
             <el-table
-                :data="tableData"
+                :data="tableData.slice((query.current-1)*query.size,query.current*query.size)"
                 border
                 class="table"
                 ref="multipleTable"
@@ -49,6 +49,16 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="pagination">
+                <el-pagination
+                    layout="sizes, prev,pager, next,total,jumper"
+                    :current-page="query.current"
+                    :page-size="query.size"
+                    :total="tableData.length"
+                    @current-change="handlePageChange"
+                    @size-change="handleSizeChage"
+                ></el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -64,6 +74,7 @@ export default {
                 size: 10
             },
             tableData: [],
+            allList: [],
             show: [],
             oldVal: []
         };
@@ -78,15 +89,42 @@ export default {
             this.$get('/fund/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data;
+                    this.allList = res.data;
                 } else {
                     this.$message.error(res.msg);
                 }
             });
         },
+        // 改变当前页数(current)大小
+        handlePageChange(val) {
+            this.$set(this.query, 'current', val);
+        },
+        //改变每页条数(size)大小
+        handleSizeChage(val) {
+            this.$set(this.query, 'size', val);
+        },
         // 触发搜索按钮
         handleSearch() {
-            this.$set(this.query, 'current', 1);
-            this.getData();
+            if (!this.query.name) {
+                this.getData();
+            } else {
+                this.search(this.query.name, this.tableData);
+            }
+        },
+        // 执行搜索(前端模糊查询)
+        search(key, arr) {
+            // 支持模糊查询
+            // this.allList：用于搜索的总数据
+            //toLowerCase():用于把字符串转为小写，让模糊查询更加清晰
+            let newListData = []; // 用于存放搜索出来数据的新数组
+            if (key) {
+                this.allList.filter(item => {
+                    if (item.name.toLowerCase().indexOf(key) !== -1) {
+                        newListData.push(item);
+                    }
+                });
+            }
+            this.tableData = newListData;
         },
         //修改数据
         handleEdit(index, row) {
@@ -154,3 +192,4 @@ export default {
     }
 };
 </script>
+
