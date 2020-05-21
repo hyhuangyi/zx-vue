@@ -81,6 +81,7 @@
 
                         <el-form-item label="菜单权限">
                             <el-tree
+                                :check-strictly="gl"
                                 :data="menuOptions"
                                 show-checkbox
                                 ref="menu"
@@ -116,6 +117,9 @@ export default {
                 current: 1,
                 size: 10
             },
+            //true 将树的父级与子级关联移除 
+            //false 将树的父级与子级关联绑
+            gl:false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -248,10 +252,12 @@ export default {
         },
         /** 根据角色ID查询菜单树结构 */
         getRoleMenuTreeselect(id) {
+            this.gl=true;
             this.getMenuTreeselect();
             this.$get('/role/query', { id: id }, true).then(response => {
                 if (response.code == 200) {
                     this.$refs.menu.setCheckedKeys(response.data.menuList);
+                    this.gl=false;
                 } else {
                     this.$message.error(response.msg);
                 }

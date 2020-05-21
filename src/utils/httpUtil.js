@@ -47,8 +47,9 @@ axios.interceptors.response.use(
     }
     //如果token失效或者被踢 重定向到登录页
     if (response.data.code == 'TOKEN_EXPIRE' || response.data.code == 'USER_KICKOUT') {
-      //清空localStorage
-      localStorage.clear();
+      // localStorage.clear();清空localStorage
+      //清空menuList  
+      localStorage.removeItem("menuList");
       router.push("/login");
     }
     if (response.config.isShow === true) {
@@ -107,9 +108,9 @@ export function get(url, data = {}, isShow) {
  * @param isShow  是否loading  boolean  true 或者 false
  * @returns {Promise}
  */
-export function post(url, data = {}, isShow ) {
+export function post(url, data = {}, isShow) {
   return new Promise((resolve, reject) => {
-    axios.post(url, qs.stringify(data), {isShow:isShow})
+    axios.post(url, qs.stringify(data), { isShow: isShow })
       .then(response => {
         resolve(response.data);
 
@@ -126,7 +127,7 @@ export function post(url, data = {}, isShow ) {
 //   install(Vue)  {
 //       Vue.prototype.get =function  get(url, data = {}, isShow) {
 //         return new Promise((resolve, reject) => {
-      
+
 //           axios.get(url, {
 //             params: data,
 //             isShow: isShow
@@ -144,7 +145,7 @@ export function post(url, data = {}, isShow ) {
 //           axios.post(url, qs.stringify(data), {isShow:isShow})
 //             .then(response => {
 //               resolve(response.data);
-      
+
 //             })
 //             .catch(err => {
 //               reject(err);
