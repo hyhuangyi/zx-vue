@@ -71,7 +71,7 @@ export default {
             query: {
                 name: '',
                 current: 1,
-                size: 10
+                size: 30
             },
             tableData: [],
             allList: [],
