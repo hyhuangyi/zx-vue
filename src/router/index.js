@@ -6,7 +6,7 @@ Vue.use(Router);
 // 解决在使用ElementUI时点击同一个路由，页面报错
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
+    return originalPush.call(this, location).catch(err => err)
 }
 
 export default new Router({
@@ -114,10 +114,14 @@ export default new Router({
                     path: '/pwd',
                     component: () => import(/* webpackChunkName: "pwd" */ '../components/page/login/changePwd.vue'),
                     meta: { title: '修改密码' }
-                },{
+                }, {
                     path: '/love',
                     component: () => import(/* webpackChunkName: "love" */ '../components/page/sys/love.vue'),
                     meta: { title: '爱情树' }
+                }, {
+                    path: '/generator',
+                    component: () => import(/* webpackChunkName: "generator" */ '../components/page/sys/generator.vue'),
+                    meta: { title: '代码生成' }
                 }
             ]
         },
