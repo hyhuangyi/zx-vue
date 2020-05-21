@@ -3,6 +3,15 @@
         <div class="container">
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="表名" class="handle-input mr10"></el-input>
+                <!-- clearable -->
+                <el-select v-model="query.schema" placeholder="请选择">
+                    <el-option
+                        v-for="item in schemaOptions"
+                        :key="item"
+                        :label="item"
+                        :value="item"
+                    ></el-option>
+                </el-select>
                 <el-date-picker
                     v-model="query.sedate"
                     type="daterange"
@@ -51,11 +60,13 @@ export default {
         return {
             query: {
                 name: '',
+                schema: '',
                 startDate: null,
                 endDate: null,
                 current: 1,
                 size: 10
             },
+            schemaOptions: [],
             tableData: [],
             multipleSelection: [],
             genList: [],
@@ -66,7 +77,10 @@ export default {
         };
     },
     created() {
-        this.getData();
+        this.getSchmeas();
+        setTimeout(() => {
+            this.getData();
+        }, 350);
     },
     methods: {
         // 获取数据
@@ -76,6 +90,16 @@ export default {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
                     this.pageTotal = res.data.total || 0;
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
+        },
+        getSchmeas() {
+            this.$get('/schema', {}, true).then(res => {
+                if (res.code == 200) {
+                    this.schemaOptions = res.data;
+                    this.query.schema = this.schemaOptions[0];
                 } else {
                     this.$message.error(res.msg);
                 }
@@ -121,9 +145,9 @@ export default {
                 this.$message.error('至少选择一个');
                 return;
             }
-             //会刷新
+            //会刷新
             // window.open(this.GLOBAL_BaseUrl+'/comm/generate/code?arr='+ str);
-            location.href = this.GLOBAL_BaseUrl+'/comm/generate/code?arr='+ str;
+            location.href = this.GLOBAL_BaseUrl + '/comm/generate/code?arr=' + str + '&schema=' + this.query.schema;
         }
     }
 };
