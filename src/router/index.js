@@ -104,11 +104,11 @@ export default new Router({
                     meta: { title: '基金列表' }
                 }, {
                     path: '/role',
-                    component: () => import(/* webpackChunkName: "role" */ '../components/page/sys/role.vue'),
+                    component: () => import(/* webpackChunkName: "role" */ '../components/page/auth/role.vue'),
                     meta: { title: '角色管理' }
                 }, {
                     path: '/user',
-                    component: () => import(/* webpackChunkName: "user" */ '../components/page/sys/user.vue'),
+                    component: () => import(/* webpackChunkName: "user" */ '../components/page/auth/user.vue'),
                     meta: { title: '用户管理' }
                 }, {
                     path: '/pwd',
@@ -122,6 +122,10 @@ export default new Router({
                     path: '/generator',
                     component: () => import(/* webpackChunkName: "generator" */ '../components/page/sys/generator.vue'),
                     meta: { title: '代码生成' }
+                }, {
+                    path: '/map',
+                    component: () => import(/* webpackChunkName: "map" */ '../components/page/sys/map.vue'),
+                    meta: { title: '高德地图' }
                 }
             ]
         },

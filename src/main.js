@@ -5,10 +5,11 @@ import Vuex from 'vuex';
 import globalApi from './utils/globalApi';
 import axios from 'axios';
 import qs from 'qs'
-import {post,get} from './utils/httpUtil'
+import { post, get } from './utils/httpUtil'
 import VueJsonp from 'vue-jsonp'
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
+import VueAMap from 'vue-amap';//地图
 import { messages } from './components/common/i18n';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import './assets/css/theme-green/index.css'; // 浅绿色主题
@@ -18,12 +19,19 @@ import './components/common/directives';
 import VueParticles from 'vue-particles'
 import 'babel-polyfill';
 //定义全局baseUrl
-Vue.prototype.GLOBAL_BaseUrl=globalApi.baseURL;
+Vue.prototype.GLOBAL_BaseUrl = globalApi.baseURL;
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(VueParticles)
 Vue.use(VueI18n);
 Vue.use(VueJsonp);
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
+    key: 'f36a05999d5745eddd6c274b088a9a55',
+    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+    // 默认高德 sdk 版本为 1.4.4
+    v: '1.4.4'
+});
 Vue.use(ElementUI, {
     size: 'small'
 });
@@ -33,19 +41,19 @@ const i18n = new VueI18n({
 });
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios
-Vue.prototype.$post=post                  
-Vue.prototype.$get=get
+Vue.prototype.$post = post
+Vue.prototype.$get = get
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | zx-vue`;
     const role = localStorage.getItem('username');
-    const menuList=localStorage.getItem('menuList');
+    const menuList = localStorage.getItem('menuList');
     if (!role && to.path !== '/login') {
         next('/login');
-    } else if(!menuList&&to.path !== '/login'&&to.path !== '/403'){
+    } else if (!menuList && to.path !== '/login' && to.path !== '/403') {
         //菜单在localStorage找不到
-        ElementUI.Message ({
+        ElementUI.Message({
             message: '登录过期',
             type: 'warning',
             center: true
