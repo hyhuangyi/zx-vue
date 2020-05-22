@@ -27,8 +27,7 @@ export default {
                 sources: [
                     {
                         type: '',
-                        src:
-                            'https://vdept.bdstatic.com/6b64417873475063727855354853454c/6d6b716978355859/517828519204452b5ee6eb49e25f6ada2ffcd3c2b9357a806d95454a8195cf61ae6631d73ad5b5db0e9ec8e3fae35b0a.mp4?auth_key=1590144175-0-0-fadc048038bb7c64a2892568c25eba43' //url地址
+                        src: 'https://vdept.bdstatic.com/356e74584533766b464a7a41757a6a44/6e7a393847343265/f709ba8a82d3abf5a2f63f53301b8c46cfc1a52e72bea843fc9bbe082cb9c763a5e2e5bddd6187ee630a7dd5e12edbf9dc7ed7a1c5246c7d2d396f7d78068afd.mp4?auth_key=1590172193-0-0-b4e6c8c809af4159e7b9e348e3cbe0c5' //url地址
                     }
                 ],
                 poster: 'http://5b0988e595225.cdn.sohucs.com/images/20180211/628567caf18c40feb492467a80e3c795.jpeg', //你的封面地址
