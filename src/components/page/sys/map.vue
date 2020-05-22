@@ -28,15 +28,7 @@ export default {
             lng: 0,
             lat: 0,
             plugin: [
-                {
-                    pName: 'MapType',
-                    defaultType: 0,
-                    events: {
-                        init(instance) {
-                            // console.log(instance);
-                        }
-                    }
-                },
+                //定位插件
                 {
                     enableHighAccuracy: true, //是否使用高精度定位，默认:true
                     timeout: 100, //超过10秒后停止定位，默认：无穷大
@@ -63,6 +55,43 @@ export default {
                                     self.$nextTick();
                                 }
                             });
+                        }
+                    }
+                },
+                //类型插件
+                {
+                    pName: 'MapType',
+                    defaultType: 0,
+                    events: {
+                        init(instance) {
+                            // console.log(instance);
+                        }
+                    }
+                },
+                //鹰眼插件
+                {
+                    pName: 'OverView',
+                    events: {
+                        init(instance) {
+                            // console.log(instance);
+                        }
+                    }
+                },
+                //比例尺插件
+                {
+                    pName: 'Scale',
+                    events: {
+                        init(instance) {
+                            // console.log(instance);
+                        }
+                    }
+                },
+                //工具条插件
+                {
+                    pName: 'ToolBar',
+                    events: {
+                        init(instance) {
+                            // console.log(instance);
                         }
                     }
                 }
@@ -105,9 +134,9 @@ export default {
 }
 .amap-wrapper {
     width: 88%;
-    height: 90%;
+    height: 85%;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 2px;
     border: 1px solid green;
 }
 </style>
