@@ -6,11 +6,11 @@ import globalApi from './utils/globalApi';
 import axios from 'axios';
 import qs from 'qs'
 import { post, get } from './utils/httpUtil'
-import VueJsonp from 'vue-jsonp'
+import VueJsonp from 'vue-jsonp'//jsonp
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import VueAMap from 'vue-amap';//地图
-import VideoPlayer from 'vue-video-player'
+import VideoPlayer from 'vue-video-player'//视频
 import 'vue-video-player/src/custom-theme.css'
 import 'video.js/dist/video-js.css'
 import { messages } from './components/common/i18n';
