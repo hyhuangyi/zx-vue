@@ -135,6 +135,7 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
+        //代码生成
         handGenerator() {
             const length = this.multipleSelection.length;
             let str = '';
