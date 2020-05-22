@@ -130,13 +130,17 @@ export default {
 .search-box {
     position: absolute;
     top: 12%;
-    left: 8%;
+    left: 12%;
+    border: 1px solid yellowgreen;
+    border-radius: 5px;
 }
 .amap-wrapper {
     width: 88%;
     height: 85%;
     margin: 0 auto;
     margin-top: 2px;
-    border: 1px solid green;
+    border: 1px solid blueviolet;
+    /*圆角*/
+    border-radius: 5px;
 }
 </style>
