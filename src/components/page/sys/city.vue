@@ -64,7 +64,7 @@
 
 <script>
 export default {
-    name: 'cityTable',
+    name: 'city',
     data() {
         return {
             query: {

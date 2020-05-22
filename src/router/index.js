@@ -27,8 +27,8 @@ export default new Router({
                 },
 
                 {
-                    path: '/table',
-                    component: () => import(/* webpackChunkName: "cityTable" */ '../components/page/sys/cityTable.vue'),
+                    path: '/city',
+                    component: () => import(/* webpackChunkName: "city" */ '../components/page/sys/city.vue'),
                     meta: { title: '城市列表' }
                 },
                 {
@@ -126,6 +126,10 @@ export default new Router({
                     path: '/map',
                     component: () => import(/* webpackChunkName: "map" */ '../components/page/sys/map.vue'),
                     meta: { title: '高德地图' }
+                }, {
+                    path: '/video',
+                    component: () => import(/* webpackChunkName: "video" */ '../components/page/sys/video.vue'),
+                    meta: { title: '视频播放' }
                 }
             ]
         },

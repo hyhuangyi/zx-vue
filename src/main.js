@@ -10,6 +10,9 @@ import VueJsonp from 'vue-jsonp'
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import VueAMap from 'vue-amap';//地图
+import VideoPlayer from 'vue-video-player'
+import 'vue-video-player/src/custom-theme.css'
+import 'video.js/dist/video-js.css'
 import { messages } from './components/common/i18n';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import './assets/css/theme-green/index.css'; // 浅绿色主题
@@ -26,6 +29,7 @@ Vue.use(VueParticles)
 Vue.use(VueI18n);
 Vue.use(VueJsonp);
 Vue.use(VueAMap);
+Vue.use(VideoPlayer)
 VueAMap.initAMapApiLoader({
     key: 'f36a05999d5745eddd6c274b088a9a55',
     plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor','AMap.Geolocation'],
