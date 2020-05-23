@@ -4,35 +4,35 @@ import router from './router';
 import Vuex from 'vuex';
 import globalApi from './utils/globalApi';
 import axios from 'axios';
-import qs from 'qs'
-import { post, get } from './utils/httpUtil'
-import VueJsonp from 'vue-jsonp'//jsonp
+import qs from 'qs';
+import { post, get } from './utils/httpUtil';
+import VueJsonp from 'vue-jsonp';//jsonp
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
+import VueParticles from 'vue-particles';//粒子特效
 import VueAMap from 'vue-amap';//地图
-import VideoPlayer from 'vue-video-player'//视频
-import 'vue-video-player/src/custom-theme.css'
-import 'video.js/dist/video-js.css'
+import VideoPlayer from 'vue-video-player';//视频
+import 'vue-video-player/src/custom-theme.css';
+import 'video.js/dist/video-js.css';
 import { messages } from './components/common/i18n';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import './assets/css/theme-green/index.css'; // 浅绿色主题
-import './assets/css/zx-table.css'//引入table公共页面
+import './assets/css/zx-table.css';//引入table公共页面
 import './assets/css/icon.css';
 import './components/common/directives';
-import VueParticles from 'vue-particles'
 import 'babel-polyfill';
 //定义全局baseUrl
 Vue.prototype.GLOBAL_BaseUrl = globalApi.baseURL;
 Vue.config.productionTip = false;
 Vue.use(Vuex);
-Vue.use(VueParticles)
+Vue.use(VueParticles);
 Vue.use(VueI18n);
 Vue.use(VueJsonp);
 Vue.use(VueAMap);
-Vue.use(VideoPlayer)
+Vue.use(VideoPlayer);
 VueAMap.initAMapApiLoader({
     key: 'f36a05999d5745eddd6c274b088a9a55',
-    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor','AMap.Geolocation'],
+    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.Geolocation'],
     // 默认高德 sdk 版本为 1.4.4
     v: '1.4.4'
 });
@@ -43,10 +43,10 @@ const i18n = new VueI18n({
     locale: 'zh',
     messages
 });
-Vue.prototype.$qs = qs
-Vue.prototype.$http = axios
-Vue.prototype.$post = post
-Vue.prototype.$get = get
+Vue.prototype.$qs = qs;
+Vue.prototype.$http = axios;
+Vue.prototype.$post = post;
+Vue.prototype.$get = get;
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
@@ -77,6 +77,8 @@ router.beforeEach((to, from, next) => {
         }
     }
 });
+//引入mock.js
+require('./mock/mock.js')
 
 new Vue({
     router,

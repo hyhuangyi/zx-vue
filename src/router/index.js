@@ -130,6 +130,10 @@ export default new Router({
                     path: '/video',
                     component: () => import(/* webpackChunkName: "video" */ '../components/page/sys/video.vue'),
                     meta: { title: '视频播放' }
+                },{
+                    path: '/waterfall',
+                    component: () => import(/* webpackChunkName: "waterfall" */ '../components/page/sys/waterfall.vue'),
+                    meta: { title: '瀑布流' }
                 }
             ]
         },
