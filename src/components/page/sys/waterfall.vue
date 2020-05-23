@@ -21,12 +21,12 @@ export default {
         getData() {
             this.$get('/imgs', {}, true).then(res => {
                 this.group++;
-                if (this.group === 4) {
+                if (this.group === 5) {
                     // 模拟已经无新数据，显示 slot="waterfall-over"
                     this.$refs.waterfall.waterfallOver();
                     return;
                 }
-                this.imgsArr = res;
+               this.imgsArr = this.imgsArr.concat(res);
             });
         }
     },
