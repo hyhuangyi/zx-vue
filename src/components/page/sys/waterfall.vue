@@ -1,5 +1,10 @@
 <template>
-    <vue-waterfall-easy ref="waterfall" :imgsArr="imgsArr" @scrollReachBottom="getData"></vue-waterfall-easy>
+    <vue-waterfall-easy
+        ref="waterfall"
+        :imgsArr="imgsArr"
+        @scrollReachBottom="getData"
+        @click="clickFn"
+    ></vue-waterfall-easy>
 </template>
 <script>
 import vueWaterfallEasy from 'vue-waterfall-easy'; //瀑布流
@@ -26,8 +31,17 @@ export default {
                     this.$refs.waterfall.waterfallOver();
                     return;
                 }
-               this.imgsArr = this.imgsArr.concat(res);
+                this.imgsArr = this.imgsArr.concat(res);
             });
+        },
+        //点击事件
+        clickFn(event, { index, value }) {
+            // 阻止a标签跳转
+            event.preventDefault();
+            // 只有当点击到图片时才进行操作
+            if (event.target.tagName.toLowerCase() == 'img') {
+                console.log('img clicked', index, value);
+            }
         }
     },
     created() {
