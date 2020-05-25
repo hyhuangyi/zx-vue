@@ -5,7 +5,7 @@
 }
 .container-water-fall {
     // padding: 0 28px;
-    width: 100vw;
+    // width: 100vw;
     box-sizing: border-box;
     h4 {
         padding-top: 56px;
@@ -17,7 +17,7 @@
         text-align: justify;
     }
     button {
-        background-color: hotpink;
+        background-color: lawngreen;
         color: #24292e;
         border: 1px solid rgba(27, 31, 35, 0.2);
         border-radius: 0.25em;
@@ -108,7 +108,6 @@
     <div class="container-water-fall">
         <!-- <h1 style="position: fixed;left: 0;top: 100px;font-style: 15px;color:blue;z-index: 1000;">{{loadstatus}}</h1> -->
         <div class="btn-group">
-            <button @click="getData">LoadMore</button>
             <button @click="switchCol(4)">4column(列)</button>
             <button @click="switchCol(5)">5column(列)</button>
             <button @click="switchCol(6)">6column(列)</button>
@@ -136,6 +135,14 @@
                 </div>
             </template>
         </waterfall>
+
+        <div
+            @click="getData"
+            style="text-align:center;line-height:5rem;color:hotpink"
+            v-show="loadMore"
+        >加載更多</div>
+        <!-- 底部提示 -->
+        <div style="text-align:center;line-height:1.5rem;color:#999999" v-show="msg">{{msg}}</div>
     </div>
 </template>
 
@@ -151,9 +158,11 @@ export default {
     },
     data() {
         return {
-            data: [],
             col: 3,
             group: 1,
+            data: [],
+            msg: '',
+            loadMore: false,
             isbottom: false //判断是否到底
         };
     },
@@ -166,9 +175,15 @@ export default {
         }
     },
     methods: {
+        //重置参数
         reset() {
+            this.col = 3;
             this.group = 1;
             this.data = [];
+            this.msg = '';
+            this.isbottom = false;
+            this.loadMore = false;
+            this.getData();
         },
         switchCol(col) {
             this.col = col;
@@ -182,8 +197,15 @@ export default {
                 this.group++;
                 if (res.length == 0) {
                     this.isbottom = true;
+                    this.msg = '被你看光了';
+                    this.loadMore = false;
+                    return;
                 }
                 this.data = this.data.concat(res);
+                //防止刷新/重置先显示出来
+                setTimeout(() => {
+                    this.loadMore = true;
+                }, 1000);
             });
         }
     },
@@ -191,6 +213,5 @@ export default {
     mounted() {
         this.getData();
     }
-   
 };
 </script>
