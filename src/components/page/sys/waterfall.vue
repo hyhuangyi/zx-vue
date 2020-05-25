@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             imgsArr: [],
-            group: 0 // 当前加载的加载图片的次数
+            group: 1 // 当前加载的加载图片的次数
         };
     },
     components: {
@@ -24,9 +24,9 @@ export default {
     },
     methods: {
         getData() {
-            this.$get('/imgs', {}, true).then(res => {
+            this.$post('/imgs', {group:this.group}, true).then(res => {
                 this.group++;
-                if (this.group === 5) {
+                if (res.length==0||res.length<10) {
                     // 模拟已经无新数据，显示 slot="waterfall-over"
                     this.$refs.waterfall.waterfallOver();
                     return;

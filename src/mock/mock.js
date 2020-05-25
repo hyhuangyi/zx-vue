@@ -1,4 +1,5 @@
 import globalApi from './../utils/globalApi';
+import qs from 'qs';
 // 首先引入Mock
 const Mock = require('mockjs');
 
@@ -12,7 +13,8 @@ Mock.setup({
 Mock.setup({
   timeout: '200 - 400'
 })
-function getImgs() {
+function getImgs(req) {
+  let group=qs.parse(req.body).group;
   // const arr= [
   //     {
   //       "src": "./static/img/1.jpg",
@@ -241,9 +243,9 @@ function getImgs() {
     "href": "https://www.baidu.com",
     "info": "20"
   }
-]
-  return arr;
+];
+ return arr.slice((group-1)*10,group*10);
 }
 
 // Mock.mock( url, post/get , 返回的数据)；
-Mock.mock(globalApi.baseURL + '/imgs', 'get', getImgs); // 获取瀑布流图片
+Mock.mock(globalApi.baseURL + '/imgs', 'post', getImgs); // 获取瀑布流图片
