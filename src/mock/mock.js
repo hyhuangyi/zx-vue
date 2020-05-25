@@ -117,7 +117,7 @@ function getImgs(req) {
         "info": "20"
       }
     ];
-  return arr.slice((group - 1) * 10, group * 10);
+  return arr.slice((group - 1) * 15, group * 15);
 }
 
 // Mock.mock( url, post/get , 返回的数据)；
