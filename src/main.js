@@ -12,6 +12,7 @@ import VueI18n from 'vue-i18n';
 import VueParticles from 'vue-particles';//粒子特效
 import VueAMap from 'vue-amap';//地图
 import VideoPlayer from 'vue-video-player';//视频
+import waterfall2 from 'vue-waterfall2';
 import 'vue-video-player/src/custom-theme.css';
 import 'video.js/dist/video-js.css';
 import { messages } from './components/common/i18n';
@@ -30,6 +31,7 @@ Vue.use(VueI18n);
 Vue.use(VueJsonp);
 Vue.use(VueAMap);
 Vue.use(VideoPlayer);
+Vue.use(waterfall2);
 VueAMap.initAMapApiLoader({
     key: 'f36a05999d5745eddd6c274b088a9a55',
     plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.Geolocation'],
@@ -54,9 +56,9 @@ router.beforeEach((to, from, next) => {
     const role = localStorage.getItem('username');
     const menuList = localStorage.getItem('menuList');
     //开放瀑布流
-    if (!role && to.path !== '/login'&&to.path!='/waterfall') {
+    if (!role && to.path !== '/login'&&to.path!='/waterfall2') {
         next('/login');
-    } else if (!menuList && to.path !== '/login' && to.path !== '/403'&&to.path!='/waterfall') {
+    } else if (!menuList && to.path !== '/login' && to.path !== '/403'&&to.path!='/waterfall2') {
         //菜单在localStorage找不到
         ElementUI.Message({
             message: '登录过期',

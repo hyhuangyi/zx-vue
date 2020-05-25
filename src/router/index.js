@@ -131,9 +131,13 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "video" */ '../components/page/sys/video.vue'),
                     meta: { title: '视频播放' }
                 },{
-                    path: '/waterfall',
-                    component: () => import(/* webpackChunkName: "waterfall" */ '../components/page/sys/waterfall.vue'),
-                    meta: { title: '瀑布流' }
+                    path: '/waterfall-easy',
+                    component: () => import(/* webpackChunkName: "waterfall-easy" */ '../components/page/sys/waterfall-easy.vue'),
+                    meta: { title: '瀑布流-easy' }
+                },{
+                    path: '/waterfall2',
+                    component: () => import(/* webpackChunkName: "waterfall2" */ '../components/page/sys/waterfall2.vue'),
+                    meta: { title: '瀑布流-2' }
                 }
             ]
         },
