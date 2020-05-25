@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         getData() {
-            this.$post('/imgs', { group: this.group }, true).then(res => {
+            this.$post('/waterfall-easy', { group: this.group }, true).then(res => {
                 console.log(res);
                 this.group++;
                 if (res.length == 0) {

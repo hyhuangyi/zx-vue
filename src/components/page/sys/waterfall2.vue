@@ -17,7 +17,7 @@
         text-align: justify;
     }
     button {
-        background-color:hotpink;
+        background-color: hotpink;
         color: #24292e;
         border: 1px solid rgba(27, 31, 35, 0.2);
         border-radius: 0.25em;
@@ -103,26 +103,18 @@
         }
     }
 }
-.githubdata {
-    float: right;
-    margin-right: 90px;
-    img {
-        width: 14px;
-        // height: 16px;
-    }
-}
 </style>
 <template>
     <div class="container-water-fall">
         <!-- <h1 style="position: fixed;left: 0;top: 100px;font-style: 15px;color:blue;z-index: 1000;">{{loadstatus}}</h1> -->
         <div class="btn-group">
-            <button @click="loadmore">LoadMore</button>
-            <button @click="switchCol(3)">3column(列)</button>
+            <button @click="getData">LoadMore</button>
             <button @click="switchCol(4)">4column(列)</button>
             <button @click="switchCol(5)">5column(列)</button>
+            <button @click="switchCol(6)">6column(列)</button>
             <button @click="reset">reset(重置)</button>
         </div>
-        <waterfall :col="col" :data="data" @loadmore="loadmore">
+        <waterfall :col="col" :data="data" @loadmore="getData">
             <template>
                 <div class="cell-item" v-for="(item,index) in data" :key="index">
                     <img v-if="item.img" :src="item.img" alt="加载错误" />
@@ -144,7 +136,6 @@
                 </div>
             </template>
         </waterfall>
-        <loading :show="loading" />
     </div>
 </template>
 
@@ -154,209 +145,16 @@
   1.itemWidth需要与gutterWidth一起使用才会生效，否则会进行自适应宽度
   2.使用了waterfall的组件不允许使用scoped,否则样式会有问题
 */
-import loading from './load';
 export default {
     props: {
         title: String
-    },
-    components: {
-        loading
     },
     data() {
         return {
             data: [],
             col: 3,
-            loading: false,
-            gitHubData: {},
-            originData: [
-                {
-                    img: './static/img/zx/default (1).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (2).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (3).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (4).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (5).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (6).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (7).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (8).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (9).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (10).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (11).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (12).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (13).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (14).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (15).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (16).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (17).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (18).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (19).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (20).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (21).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (22).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (23).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (24).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (25).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (26).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (27).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (28).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (29).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (30).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }, {
-                    img: './static/img/zx/default (31).jpeg',
-                    avatar: './static/img/zx/emmy.jpg',
-                    title: '常州一日游',
-                    user: 'www',
-                    like: '520'
-                }
-            ]
+            group: 1,
+            isbottom: false //判断是否到底
         };
     },
     computed: {
@@ -369,21 +167,30 @@ export default {
     },
     methods: {
         reset() {
+            this.group = 1;
             this.data = [];
         },
         switchCol(col) {
             this.col = col;
         },
-        loadmore() {
-            this.loading = true;
-            setTimeout(() => {
-                this.data = this.data.concat(this.originData, this.originData);
-                this.loading = false;
-            }, 1000);
+        getData() {
+            if (this.isbottom) {
+                return;
+            }
+            this.$post('/waterfall2', { group: this.group }, true).then(res => {
+                console.log(res);
+                this.group++;
+                if (res.length == 0) {
+                    this.isbottom = true;
+                }
+                this.data = this.data.concat(res);
+            });
         }
     },
+
     mounted() {
-        this.data = this.originData;
+        this.getData();
     }
+   
 };
 </script>
