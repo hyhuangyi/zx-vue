@@ -53,9 +53,10 @@ router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | zx-vue`;
     const role = localStorage.getItem('username');
     const menuList = localStorage.getItem('menuList');
-    if (!role && to.path !== '/login') {
+    //开放瀑布流
+    if (!role && to.path !== '/login'&&to.path!='/waterfall') {
         next('/login');
-    } else if (!menuList && to.path !== '/login' && to.path !== '/403') {
+    } else if (!menuList && to.path !== '/login' && to.path !== '/403'&&to.path!='/waterfall') {
         //菜单在localStorage找不到
         ElementUI.Message({
             message: '登录过期',
