@@ -25,8 +25,9 @@ export default {
     methods: {
         getData() {
             this.$post('/imgs', { group: this.group }, true).then(res => {
+                console.log(res);
                 this.group++;
-                if (res.length == 0 || res.length < 20) {
+                if (res.length == 0 || res.length < 10) {
                     // 模拟已经无新数据，显示 slot="waterfall-over"
                     this.$refs.waterfall.waterfallOver();
                     return;
