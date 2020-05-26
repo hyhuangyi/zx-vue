@@ -22,10 +22,9 @@ export default new Router({
             children: [
                 {
                     path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "monitor" */ '../components/page/sys/monitor.vue'),
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/sys/dashboard.vue'),
                     meta: { title: '系统首页' }
                 },
-
                 {
                     path: '/city',
                     component: () => import(/* webpackChunkName: "city" */ '../components/page/sys/city.vue'),
@@ -76,6 +75,11 @@ export default new Router({
                     path: '/permission',
                     component: () => import(/* webpackChunkName: "permission" */ '../components/page/demo/Permission.vue'),
                     meta: { title: '权限测试', permission: true }
+                },
+                {
+                    path: '/monitor',
+                    component: () => import(/* webpackChunkName: "monitor" */ '../components/page/sys/monitor.vue'),
+                    meta: { title: '服务监控' }
                 },
                 {
                     path: '/swagger',
@@ -130,11 +134,11 @@ export default new Router({
                     path: '/video',
                     component: () => import(/* webpackChunkName: "video" */ '../components/page/sys/video.vue'),
                     meta: { title: '视频播放' }
-                },{
+                }, {
                     path: '/waterfall-easy',
                     component: () => import(/* webpackChunkName: "waterfall-easy" */ '../components/page/sys/waterfall-easy.vue'),
                     meta: { title: '瀑布流-easy' }
-                },{
+                }, {
                     path: '/waterfall2',
                     component: () => import(/* webpackChunkName: "waterfall2" */ '../components/page/sys/waterfall2.vue'),
                     meta: { title: '瀑布流-2' }
