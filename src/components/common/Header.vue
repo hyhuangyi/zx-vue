@@ -38,9 +38,14 @@
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <a href="https://github.com/hyhuangyi/zx-vue.git" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
+                        <a
+                            target="_blank"
+                            href="//shang.qq.com/wpa/qunwpa?idkey=1e366d1b3da6c901ca5cebcf66f4b16d11869a85b5a584c5e782d6e8e5560bbc"
+                            <el-dropdown-item>加群交流</el-dropdown-item>
                         </a>
+                        <!-- <a href="https://github.com/hyhuangyi/zx-vue.git" target="_blank">
+                            <el-dropdown-item>项目仓库</el-dropdown-item>
+                        </a>-->
                         <el-dropdown-item divided @click.native="changePassword">修改密码</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
@@ -57,7 +62,7 @@ export default {
             collapse: false,
             fullscreen: false,
             name: 'zx',
-            message: 2,
+            message: 2
         };
     },
     computed: {
@@ -75,7 +80,7 @@ export default {
             }
         },
         changePassword() {
-            this.$router.push('/pwd')
+            this.$router.push('/pwd');
         },
         // 侧边栏折叠
         collapseChage() {
