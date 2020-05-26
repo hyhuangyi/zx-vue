@@ -17,7 +17,7 @@
         text-align: justify;
     }
     button {
-        background-color: lawngreen;
+        background-color:plum;
         color: #24292e;
         border: 1px solid rgba(27, 31, 35, 0.2);
         border-radius: 0.25em;
@@ -138,11 +138,11 @@
 
         <div
             @click="getData"
-            style="text-align:center;line-height:5rem;color:hotpink"
+            style="text-align:center;line-height:5rem;color:#836FFF"
             v-show="loadMore"
-        >加載更多</div>
+        >加载更多</div>
         <!-- 底部提示 -->
-        <div style="text-align:center;line-height:1.5rem;color:#999999" v-show="msg">{{msg}}</div>
+        <div style="text-align:center;line-height:1rem;color:grey;font-style:italic;font-size:12px;" v-show="msg">{{msg}}</div>
     </div>
 </template>
 
@@ -197,7 +197,7 @@ export default {
                 this.group++;
                 if (res.length == 0) {
                     this.isbottom = true;
-                    this.msg = '被你看光了';
+                    this.msg = '我也是有底线的';
                     this.loadMore = false;
                     return;
                 }
