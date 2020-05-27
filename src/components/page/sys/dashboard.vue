@@ -212,7 +212,6 @@ export default {
     },
     computed: {
         role() {
-            console.log(this.name);
             return this.name === 'admin' ? '超级管理员' : '普通用户';
         }
     }
