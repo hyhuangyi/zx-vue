@@ -97,12 +97,12 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
+                    <div id="box1" style="width:100%;height:280px"></div>
                 </el-card>
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
+                    <div id="box2" style="width:100%;height:280px"></div>
                 </el-card>
             </el-col>
         </el-row>
@@ -140,30 +140,13 @@ export default {
                 },
                 {
                     title: '人在千里，家在心里；家在千里，人在心里。',
-                    status: false
+                    status: true
                 },
                 {
                     title: '退是一种胸怀，让是一种修养，退、让则是一种智慧。',
-                    status: false
+                    status: true
                 }
-            ],
-            options: {
-                type: 'bar',
-                title: {
-                    text: '最近六个月各用户访问趋势'
-                },
-                xRorate: 25,
-                labels: [],
-                datasets: []
-            },
-            options2: {
-                type: 'line',
-                title: {
-                    text: '最近六个月各用户访问趋势'
-                },
-                labels: [],
-                datasets: []
-            }
+            ]
         };
     },
     components: {
@@ -173,21 +156,59 @@ export default {
         add() {
             this.$message.error('暂不支持操作');
         },
-        chartData() {
-            this.$get('/operate/chart', this.query, true).then(res => {
+        drawLine() {
+            //柱状
+            this.$get('/operate/chart', { type: 'bar' }, true).then(res => {
+                let data = res.data;
                 if (res.code == 200) {
-                    this.options.labels = res.data.labels;
-                    this.options.datasets = res.data.datasets;
-                    this.options2.labels = res.data.labels;
-                    this.options2.datasets = res.data.datasets;
+                    // 基于准备好的dom，初始化echarts实例，所以只能在mounted中调用
+                    let myChart = this.$echarts.init(document.getElementById('box1'));
+                    // 绘制图表
+                    myChart.setOption({
+                        title: { text: '柱状' },
+                        tooltip: {},
+                        legend: {
+                            data: data.legend
+                        },
+                        xAxis: {
+                            // x坐标
+                            data: data.xAxis
+                        },
+                        yAxis: {}, // y坐标
+                        series: data.series
+                    });
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
+            //折线
+            this.$get('/operate/chart', { type: 'line' }, true).then(res => {
+                let data = res.data;
+                if (res.code == 200) {
+                    // 基于准备好的dom，初始化echarts实例，所以只能在mounted中调用
+                    let myChart = this.$echarts.init(document.getElementById('box2'));
+                    // 绘制图表
+                    myChart.setOption({
+                        title: { text: '折线' },
+                        tooltip: {},
+                        legend: {
+                            data: data.legend
+                        },
+                        xAxis: {
+                            // x坐标
+                            data: data.xAxis
+                        },
+                        yAxis: {}, // y坐标
+                        series: data.series
+                    });
                 } else {
                     this.$message.error(res.msg);
                 }
             });
         }
     },
-    created(){
-        this.chartData();
+    mounted() {
+        this.drawLine();
     },
     computed: {
         role() {

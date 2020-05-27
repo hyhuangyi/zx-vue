@@ -12,7 +12,8 @@ import VueI18n from 'vue-i18n';
 import VueParticles from 'vue-particles';//粒子特效
 import VueAMap from 'vue-amap';//地图
 import VideoPlayer from 'vue-video-player';//视频
-import waterfall2 from 'vue-waterfall2';
+import waterfall2 from 'vue-waterfall2'; //瀑布流waterfall2
+import echarts from 'echarts' //图表echarts
 import 'vue-video-player/src/custom-theme.css';
 import 'video.js/dist/video-js.css';
 import { messages } from './components/common/i18n';
@@ -22,8 +23,10 @@ import './assets/css/zx-table.css';//引入table公共页面
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
+
 //定义全局baseUrl
 Vue.prototype.GLOBAL_BaseUrl = globalApi.baseURL;
+Vue.prototype.$echarts = echarts;
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(VueParticles);
