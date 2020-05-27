@@ -202,7 +202,7 @@ export default {
                         series: data.series
                     });
                 } else {
-                    this.$message.error(res.msg);
+                    // this.$message.error(res.msg);
                 }
             });
         }
