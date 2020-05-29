@@ -83,6 +83,25 @@
                         </el-form-item>
                     </el-form>
                 </div>
+                <div>
+                    <vue-particles
+                        color="#FF83FA"
+                        :particleOpacity="0.7"
+                        :particlesNumber="110"
+                        shapeType="circle"
+                        :particleSize="4"
+                        linesColor="#EE5C42"
+                        :linesWidth="1"
+                        :lineLinked="true"
+                        :lineOpacity="0.4"
+                        :linesDistance="150"
+                        :moveSpeed="3"
+                        :hoverEffect="true"
+                        hoverMode="grab"
+                        :clickEffect="true"
+                        clickMode="push"
+                    />
+                </div>
             </el-drawer>
         </div>
     </div>
