@@ -115,10 +115,6 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "user" */ '../components/page/auth/user.vue'),
                     meta: { title: '用户管理' }
                 }, {
-                    path: '/pwd',
-                    component: () => import(/* webpackChunkName: "pwd" */ '../components/page/login/changePwd.vue'),
-                    meta: { title: '修改密码' }
-                }, {
                     path: '/love',
                     component: () => import(/* webpackChunkName: "love" */ '../components/page/sys/love.vue'),
                     meta: { title: '爱情树' }

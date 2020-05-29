@@ -40,17 +40,62 @@
                     <el-dropdown-menu slot="dropdown">
                         <a
                             target="_blank"
-                            href="//shang.qq.com/wpa/qunwpa?idkey=1e366d1b3da6c901ca5cebcf66f4b16d11869a85b5a584c5e782d6e8e5560bbc">
+                            href="//shang.qq.com/wpa/qunwpa?idkey=1e366d1b3da6c901ca5cebcf66f4b16d11869a85b5a584c5e782d6e8e5560bbc"
+                        >
                             <el-dropdown-item>加群交流</el-dropdown-item>
                         </a>
                         <!-- <a href="https://github.com/hyhuangyi/zx-vue.git" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a>-->
-                        <el-dropdown-item divided @click.native="changePassword">修改密码</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="drawer=true">修改密码</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
+            <el-drawer
+                title="修改密码"
+                :visible.sync="drawer"
+                :with-header="false"
+                :show-close="true"
+                @close="closeDrawer()"
+            >
+                <div>
+                    <el-form
+                        class="user-account-key"
+                        ref="form"
+                        :model="form"
+                        :rules="rules"
+                        label-width="100px"
+                    >
+                        <el-form-item label="原密码" prop="old">
+                            <el-input
+                                type="password"
+                                placeholder="请输入原密码"
+                                v-model="form.old"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item label="新密码" prop="news">
+                            <el-input
+                                type="password"
+                                placeholder="请设置新密码"
+                                v-model="form.news"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码" prop="confirm">
+                            <el-input
+                                type="password"
+                                placeholder="请确认新密码"
+                                v-model="form.confirm"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="warning" plain @click="cancelForm()">取消</el-button>
+                            <el-button type="primary" plain @click="onSubmit('form')">确认</el-button>
+                            <el-button type="info" plain @click="resetForm('form')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-drawer>
         </div>
     </div>
 </template>
@@ -59,10 +104,19 @@ import bus from '../common/bus';
 export default {
     data() {
         return {
+            drawer: false,
             collapse: false,
             fullscreen: false,
             name: 'zx',
-            message: 2
+            message: 2,
+            // 表单参数
+            form: {},
+            // 表单校验
+            rules: {
+                old: [{ required: true, message: '原密码不能为空', trigger: 'blur' }],
+                news: [{ required: true, message: '新密码不能为空', trigger: 'blur' }],
+                confirm: [{ required: true, message: '确认密码不能为空', trigger: 'blur' }]
+            }
         };
     },
     computed: {
@@ -72,15 +126,43 @@ export default {
         }
     },
     methods: {
+        //修改密码提交表单
+        onSubmit() {
+            this.$refs['form'].validate(valid => {
+                if (valid) {
+                    let userId = localStorage.getItem('userId');
+                    this.form.id = userId;
+                    this.$post('/user/change/psw', this.form, true).then(response => {
+                        if (response.code == 200) {
+                            this.$router.push('/login');
+                            this.$message.success('修改成功,请重新登录');
+                        } else {
+                            this.$message.error(response.msg);
+                        }
+                    });
+                }
+            });
+        },
+        //取消操作
+        cancelForm() {
+            this.resetForm('form');
+            this.drawer = false;
+        },
+        closeDrawer() {
+            this.resetForm('form');
+        },
+        // 表单重置
+        resetForm(refName) {
+            if (this.$refs[refName]) {
+                this.$refs[refName].resetFields();
+            }
+        },
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
                 localStorage.removeItem('menuList');
                 this.$router.push('/login');
             }
-        },
-        changePassword() {
-            this.$router.push('/pwd');
         },
         // 侧边栏折叠
         collapseChage() {
@@ -195,6 +277,11 @@ export default {
     cursor: pointer;
 }
 .el-dropdown-menu__item {
+    text-align: center;
+}
+.user-account-key {
+    margin: 8px auto;
+    width: 98%;
     text-align: center;
 }
 </style>
