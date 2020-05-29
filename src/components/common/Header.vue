@@ -40,7 +40,7 @@
                     <el-dropdown-menu slot="dropdown">
                         <a
                             target="_blank"
-                            href="//shang.qq.com/wpa/qunwpa?idkey=1e366d1b3da6c901ca5cebcf66f4b16d11869a85b5a584c5e782d6e8e5560bbc"
+                            href="//shang.qq.com/wpa/qunwpa?idkey=1e366d1b3da6c901ca5cebcf66f4b16d11869a85b5a584c5e782d6e8e5560bbc">
                             <el-dropdown-item>加群交流</el-dropdown-item>
                         </a>
                         <!-- <a href="https://github.com/hyhuangyi/zx-vue.git" target="_blank">
