@@ -33,7 +33,7 @@ export default {
             form: {},
             // 表单校验
             rules: {
-                old: [{ required: true, message: '原不能为空', trigger: 'blur' }],
+                old: [{ required: true, message: '原密码不能为空', trigger: 'blur' }],
                 news: [{ required: true, message: '新密码不能为空', trigger: 'blur' }],
                 confirm: [{ required: true, message: '确认密码不能为空', trigger: 'blur' }]
             }
