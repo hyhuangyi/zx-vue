@@ -68,25 +68,13 @@
                         label-width="100px"
                     >
                         <el-form-item label="原密码" prop="old">
-                            <el-input
-                                type="password"
-                                placeholder="请输入原密码"
-                                v-model="form.old"
-                            ></el-input>
+                            <el-input type="password" placeholder="请输入原密码" v-model="form.old"></el-input>
                         </el-form-item>
                         <el-form-item label="新密码" prop="news">
-                            <el-input
-                                type="password"
-                                placeholder="请设置新密码"
-                                v-model="form.news"
-                            ></el-input>
+                            <el-input type="password" placeholder="请设置新密码" v-model="form.news"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="confirm">
-                            <el-input
-                                type="password"
-                                placeholder="请确认新密码"
-                                v-model="form.confirm"
-                            ></el-input>
+                            <el-input type="password" placeholder="请确认新密码" v-model="form.confirm"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="warning" plain @click="cancelForm()">取消</el-button>
