@@ -138,6 +138,10 @@ export default new Router({
                     path: '/waterfall2',
                     component: () => import(/* webpackChunkName: "waterfall2" */ '../components/page/sys/waterfall2.vue'),
                     meta: { title: '瀑布流-2' }
+                },{
+                    path: '/weibo',
+                    component: () => import(/* webpackChunkName: "weibo" */ '../components/page/sys/weibo.vue'),
+                    meta: { title: '微博话题' }
                 }
             ]
         },
