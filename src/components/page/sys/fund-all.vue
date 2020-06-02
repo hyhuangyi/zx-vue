@@ -4,7 +4,7 @@
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="基金名称" class="handle-input mr10"></el-input>
                 <!-- clearable -->
-                <el-select v-model="query.type" placeholder="请选择" clearable>
+                <el-select v-model="query.type" placeholder="请选择" clearable class="handle-input mr10">
                     <el-option v-for="item in selectData" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>

@@ -4,7 +4,7 @@
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="表名" class="handle-input mr10"></el-input>
                 <!-- clearable -->
-                <el-select v-model="query.schema" placeholder="请选择">
+                <el-select v-model="query.schema" placeholder="请选择" class="handle-input mr10">
                     <el-option
                         v-for="item in schemaOptions"
                         :key="item"
