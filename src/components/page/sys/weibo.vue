@@ -24,15 +24,28 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="userId" label="微博id" align="center"></el-table-column>
-                 <el-table-column prop="screenName" label="微博name" align="center"></el-table-column>
+                <el-table-column prop="screenName" label="微博name" align="center"></el-table-column>
                 <el-table-column prop="text" label="微博类容" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="topics" label="话题" align="center"></el-table-column>
                 <el-table-column prop="createdAt" label="发表时间" align="center"></el-table-column>
                 <el-table-column prop="source" label="发布工具" align="center"></el-table-column>
-                <el-table-column prop="attitudesCount" label="点赞数" align="center" sortable></el-table-column>
-                 <el-table-column prop="commentsCount" label="评论数" align="center" sortable></el-table-column>
-                 <el-table-column prop="repostsCount" label="转发数" align="center" sortable></el-table-column>
 
+                <el-table-column prop="imgPath" label="图片">
+                    <template slot-scope="scope">
+                        <el-popover placement="left" title trigger="hover">
+                            <img
+                                :src="scope.row.pics"
+                                alt=""
+                                style="max-width: 220px; max-height: 180px;"
+                            />
+                            <img
+                                slot="reference" :src="scope.row.pics" alt="" style="display: inline-block; height: auto;max-width: 100%; max-height: 100px;"/>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="attitudesCount" label="点赞数" align="center" sortable></el-table-column>
+                <el-table-column prop="commentsCount" label="评论数" align="center" sortable></el-table-column>
+                <el-table-column prop="repostsCount" label="转发数" align="center" sortable></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -81,6 +94,11 @@ export default {
             this.$get('/weibo/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
+                    this.tableData.forEach(a=>{
+                        if(a.pics!=''){
+                            a.pics=a.pics.split(",")[0]
+                        }
+                    });
                     this.pageTotal = res.data.total || 0;
                 } else {
                     this.$message.error(res.msg);
@@ -121,3 +139,6 @@ export default {
     }
 };
 </script>
+<style lang="scss">
+    .el-tooltip__popper{max-width:40%}
+</style>
