@@ -103,9 +103,9 @@ export default new Router({
                     meta: { title: '403' }
                 },
                 {
-                    path: '/fund',
-                    component: () => import(/* webpackChunkName: "fund" */ '../components/page/sys/fund.vue'),
-                    meta: { title: '基金列表' }
+                    path: '/fund-my',
+                    component: () => import(/* webpackChunkName: "fund-my" */ '../components/page/sys/fund-my.vue'),
+                    meta: { title: '我的基金' }
                 }, {
                     path: '/role',
                     component: () => import(/* webpackChunkName: "role" */ '../components/page/auth/role.vue'),
@@ -142,6 +142,10 @@ export default new Router({
                     path: '/weibo',
                     component: () => import(/* webpackChunkName: "weibo" */ '../components/page/sys/weibo.vue'),
                     meta: { title: '微博话题' }
+                }, {
+                    path: '/fund-all',
+                    component: () => import(/* webpackChunkName: "fund-all" */ '../components/page/sys/fund-all.vue'),
+                    meta: { title: '基金列表' }
                 }
             ]
         },
