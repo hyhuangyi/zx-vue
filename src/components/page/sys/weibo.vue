@@ -34,12 +34,18 @@
                     <template slot-scope="scope">
                         <el-popover placement="left" title trigger="hover">
                             <img
+                                referrerpolicy="no-referrer"
                                 :src="scope.row.pics"
-                                alt=""
+                                alt
                                 style="max-width: 220px; max-height: 180px;"
                             />
                             <img
-                                slot="reference" :src="scope.row.pics" alt="" style="display: inline-block; height: auto;max-width: 100%; max-height: 100px;"/>
+                                slot="reference"
+                                referrerpolicy="no-referrer"
+                                :src="scope.row.pics"
+                                alt
+                                style="display: inline-block; height: auto;max-width: 100%; max-height: 100px;"
+                            />
                         </el-popover>
                     </template>
                 </el-table-column>
@@ -94,9 +100,9 @@ export default {
             this.$get('/weibo/list', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data.records;
-                    this.tableData.forEach(a=>{
-                        if(a.pics!=''){
-                            a.pics=a.pics.split(",")[0]
+                    this.tableData.forEach(a => {
+                        if (a.pics != '') {
+                            a.pics = a.pics.split(',')[0];
                         }
                     });
                     this.pageTotal = res.data.total || 0;
@@ -140,5 +146,7 @@ export default {
 };
 </script>
 <style lang="scss">
-    .el-tooltip__popper{max-width:40%}
+.el-tooltip__popper {
+    max-width: 40%;
+}
 </style>
