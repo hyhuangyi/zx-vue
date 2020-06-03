@@ -92,6 +92,7 @@ export default {
         sysFund() {
             this.$get('/fund/update', {}, true).then(res => {
                 if (res.code == 200) {
+                    this.getData();
                     this.$message.success('同步成功');
                 } else {
                     this.$message.error(res.msg);
