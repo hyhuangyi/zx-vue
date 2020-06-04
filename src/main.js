@@ -36,7 +36,7 @@ Vue.use(VueAMap);
 Vue.use(VideoPlayer);
 Vue.use(waterfall2);
 VueAMap.initAMapApiLoader({
-    key: 'f36a05999d5745eddd6c274b088a9a55',
+    key: '86e40671f68c0655b78a243a3f2d3a81',
     plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.Geolocation'],
     // 默认高德 sdk 版本为 1.4.4
     v: '1.4.4'

@@ -193,7 +193,7 @@ export default {
                 return;
             }
             this.$post('/waterfall2', { group: this.group }, true).then(res => {
-                console.log(res);
+                // console.log(res);
                 this.group++;
                 if (res.length == 0) {
                     this.isbottom = true;

@@ -25,7 +25,7 @@ export default {
     methods: {
         getData() {
             this.$post('/waterfall-easy', { group: this.group }, true).then(res => {
-                console.log(res);
+                // console.log(res);
                 this.group++;
                 if (res.length == 0) {
                     // 模拟已经无新数据，显示 slot="waterfall-over"
