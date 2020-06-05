@@ -29,6 +29,7 @@
                 <el-table-column prop="fullPy" label="基金全拼" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="type" label="基金类型" align="center"></el-table-column>
                 <el-table-column prop="name" label="基金名称" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="buyRate" label="购买费率" align="center"></el-table-column>
                 <el-table-column prop="createTime" label="录入时间" align="center"></el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
             </el-table>
@@ -56,7 +57,7 @@ export default {
                 name: '',
                 type: '',
                 current: 1,
-                size: 50
+                size: 20
             },
             selectData: [],
             tableData: [],
