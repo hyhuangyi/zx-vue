@@ -4,7 +4,12 @@
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="基金名称" class="handle-input mr10"></el-input>
                 <!-- clearable -->
-                <el-select v-model="query.type" placeholder="请选择" clearable class="handle-input mr10">
+                <el-select
+                    v-model="query.type"
+                    placeholder="请选择"
+                    clearable
+                    class="handle-input mr10"
+                >
                     <el-option v-for="item in selectData" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
@@ -23,7 +28,7 @@
                 <el-table-column prop="shortPy" label="基金短拼" align="center"></el-table-column>
                 <el-table-column prop="fullPy" label="基金全拼" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="type" label="基金类型" align="center"></el-table-column>
-                <el-table-column prop="name" label="基金名称" align="center"></el-table-column>
+                <el-table-column prop="name" label="基金名称" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="createTime" label="录入时间" align="center"></el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
             </el-table>
@@ -123,3 +128,8 @@ export default {
     }
 };
 </script>
+<style lang="scss">
+.el-tooltip__popper {
+    max-width: 40%;
+}
+</style>
