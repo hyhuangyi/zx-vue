@@ -11,8 +11,6 @@
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
-                show-summary
-                :summary-method="getSummaries"
             >
                 <!-- @row-click="handleCurrentChange" -->
                 <el-table-column prop="fundcode" label="基金代码" align="center"></el-table-column>
