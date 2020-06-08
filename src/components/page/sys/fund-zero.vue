@@ -20,32 +20,11 @@
                 <el-table-column prop="jzrq" label="净值日期" align="center"></el-table-column>
                 <el-table-column prop="dwjz" label="单位净值" sortable align="center"></el-table-column>
                 <el-table-column prop="gztime" label="估值时间" align="center"></el-table-column>
-                <el-table-column prop="gsz" label="估算值" sortable align="center"></el-table-column>
+                <el-table-column prop="gsz" label="估算值"  align="center"></el-table-column>
                 <el-table-column prop="gszzl" label="估算率" sortable align="center">
                     <template scope="scope">
                         <span v-if="scope.row.gszzl>0" style="color: red">{{scope.row.gszzl}}</span>
                         <span v-else style="color: green">{{scope.row.gszzl}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="remark" label="持有(可编辑)" sortable align="center">
-                    <template slot-scope="scope">
-                        <el-input
-                            :ref="'input'+scope.$index"
-                            placeholder="请输入内容"
-                            v-show="show[scope.$index]"
-                            v-model="scope.row.remark"
-                            @blur="handleEdit(scope.$index, scope.row)"
-                        ></el-input>
-                        <span
-                            v-show="!show[scope.$index]"
-                            @click="toEdit(scope.$index)"
-                        >{{scope.row.remark}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="ly" label="估值利润" sortable align="center">
-                    <template scope="scope">
-                        <span v-if="scope.row.ly>0" style="color: red">{{scope.row.ly}}</span>
-                        <span v-else style="color: green">{{scope.row.ly}}</span>
                     </template>
                 </el-table-column>
             </el-table>
@@ -69,6 +48,7 @@ export default {
     data() {
         return {
             query: {
+                num: 30,
                 name: '',
                 current: 1,
                 size: 30
@@ -86,7 +66,7 @@ export default {
         // 获取数据
         getData() {
             this.show = [];
-            this.$get('/fund/list', this.query, true).then(res => {
+            this.$get('/comm/fund/zero/rank', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data;
                     this.allList = res.data;
@@ -125,70 +105,6 @@ export default {
                 });
             }
             this.tableData = newListData;
-        },
-        //修改数据
-        handleEdit(index, row) {
-            if (this.oldVal[index] == row.remark) {
-                this.$set(this.show, index, false);
-                return;
-            } else {
-                this.$post('/fund/edit', { id: row.id, remark: row.remark }, true).then(res => {
-                    if (res.code == 200) {
-                        //直接赋值视图不刷新
-                        this.$set(this.show, index, false);
-                        this.getData();
-                    } else {
-                        this.$message.error(res.msg);
-                    }
-                });
-            }
-        },
-        //跳到编辑
-        toEdit(index) {
-            let input = 'input' + index;
-            //ref不是响应式的 必须要定时器
-            setTimeout(() => {
-                this.$nextTick(() => {
-                    //获取焦点
-                    this.$refs[input].focus();
-                    this.$set(this.oldVal, index, this.$refs[input].value);
-                });
-            }, 10);
-
-            //直接赋值视图不刷新
-            this.$set(this.show, index, true);
-        },
-        //合计计算
-        getSummaries(param) {
-            const { columns, data } = param;
-            const sums = [];
-            columns.forEach((column, index) => {
-                if (index === 0) {
-                    sums[index] = '合计';
-                    return;
-                }
-                //这些字段不合计
-                if (index === 2 || index === 3 || index === 4 || index === 5 || index === 6) {
-                    sums[index] = '/';
-                    return;
-                }
-                const values = data.map(item => Number(item[column.property]));
-                //合计
-                if (!values.every(value => isNaN(value))) {
-                    sums[index] = values.reduce((prev, curr) => {
-                        const value = Number(curr);
-                        if (!isNaN(value)) {
-                            return prev + curr;
-                        } else {
-                            return prev;
-                        }
-                    }, 0);
-                    sums[index] = '￥' + parseFloat(sums[index]).toFixed(2);
-                } else {
-                    sums[index] = '/';
-                }
-            });
-            return sums;
         }
     }
 };

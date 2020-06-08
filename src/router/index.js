@@ -146,6 +146,10 @@ export default new Router({
                     path: '/fund-all',
                     component: () => import(/* webpackChunkName: "fund-all" */ '../components/page/sys/fund-all.vue'),
                     meta: { title: '基金列表' }
+                },{
+                    path: '/fund-zero',
+                    component: () => import(/* webpackChunkName: "fund-zero" */ '../components/page/sys/fund-zero.vue'),
+                    meta: { title: ' 免费率基' }
                 }
             ]
         },
