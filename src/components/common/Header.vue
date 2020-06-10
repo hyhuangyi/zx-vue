@@ -38,6 +38,7 @@
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item divided @click.native="csdnFun">CSDN</el-dropdown-item>
                         <a
                             target="_blank"
                             href="//shang.qq.com/wpa/qunwpa?idkey=1e366d1b3da6c901ca5cebcf66f4b16d11869a85b5a584c5e782d6e8e5560bbc"
@@ -103,6 +104,45 @@
                     />
                 </div>
             </el-drawer>
+
+            <el-drawer title="CSDN" :visible.sync="drawer1" :with-header="false" :show-close="true">
+                <div class="web-magic" style=" margin: 0 auto; margin-left: 100px;">
+                    <el-button
+                        type="info"
+                        plain
+                        :icon="i1"
+                        @click="csdnContro(i1,1)"
+                        style=" margin: 0 auto; margin-top: 20px;"
+                    >{{v1}}</el-button>
+                    <br />
+                    <el-button
+                        type="info"
+                        plain
+                        :icon="i2"
+                        @click="csdnContro(i2,2)"
+                        style=" margin: 0 auto; margin-top: 20px;"
+                    >{{v2}}</el-button>
+                </div>
+                <div>
+                    <vue-particles
+                        color="#FF83FA"
+                        :particleOpacity="0.7"
+                        :particlesNumber="110"
+                        shapeType="circle"
+                        :particleSize="4"
+                        linesColor="#EE5C42"
+                        :linesWidth="1"
+                        :lineLinked="true"
+                        :lineOpacity="0.4"
+                        :linesDistance="150"
+                        :moveSpeed="3"
+                        :hoverEffect="true"
+                        hoverMode="grab"
+                        :clickEffect="true"
+                        clickMode="push"
+                    />
+                </div>
+            </el-drawer>
         </div>
     </div>
 </template>
@@ -112,8 +152,13 @@ export default {
     data() {
         return {
             drawer: false,
+            drawer1: false,
             collapse: false,
             fullscreen: false,
+            v1: '',
+            v2: '',
+            i1: '',
+            i2: '',
             name: 'zx',
             message: 2,
             // 表单参数
@@ -162,6 +207,52 @@ export default {
         resetForm(refName) {
             if (this.$refs[refName]) {
                 this.$refs[refName].resetFields();
+            }
+        },
+        //csdn方法
+        csdnFun() {
+            this.drawer1 = true;
+            this.$get('/comm/runStatus', {}, false).then(response => {
+                if (response.code == 200) {
+                    if (response.data.v1 == null) {
+                        this.v1 = '点击开启第一页';
+                        this.i1 = 'el-icon-video-play';
+                    } else {
+                        this.v1 = '正在运行,总次数：' + response.data.v1 + '次,点击停止';
+                        this.i1 = 'el-icon-video-pause';
+                    }
+                    if (response.data.v2 == null) {
+                        this.v2 = '点击开启第二页';
+                        this.i2 = 'el-icon-video-play';
+                    } else {
+                        this.v2 = '正在运行,总次数：' + response.data.v2 + '次,点击停止';
+                        this.i2 = 'el-icon-video-pause';
+                    }
+                } else {
+                    this.$message.error(response.msg);
+                }
+            });
+        },
+        //开启
+        csdnContro(type, page) {
+            if (type == 'el-icon-video-play') {
+                this.$get('/comm/start/csdn', { page: page }, false).then(response => {
+                    if (response.code == 200) {
+                        this.csdnFun();
+                        this.$message.success('启动成功');
+                    } else {
+                        this.$message.error(response.msg);
+                    }
+                });
+            } else {
+                this.$get('/comm/stop/csdn', { page: page }, false).then(response => {
+                    if (response.code == 200) {
+                        this.csdnFun();
+                        this.$message.success('关闭成功');
+                    } else {
+                        this.$message.error(response.msg);
+                    }
+                });
             }
         },
         // 用户名下拉菜单选择事件
