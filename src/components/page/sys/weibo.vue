@@ -14,6 +14,7 @@
                 ></el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
                 <el-button type="primary" @click="weiboSerach()" style="float:right;">话题爬取</el-button>
+                <el-button type="primary" @click="cleanData()" style="float:right;">清空数据</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -89,7 +90,9 @@
                 <p class="tip">1.用Chrome打开https://passport.weibo.cn/signin/login</p>
                 <p class="tip">2.输入微博的用户名、密码，登录</p>
                 <p class="tip">3.按F12键打开Chrome开发者工具，在地址栏输入并跳转到https://weibo.cn</p>
-                <p class="tip">4.依此点击Chrome开发者工具中的Network->Name中的weibo.cn->Headers->Request Headers，"Cookie:"后的值即为我们要找的cookie值，复制即可</p>
+                <p
+                    class="tip"
+                >4.依此点击Chrome开发者工具中的Network->Name中的weibo.cn->Headers->Request Headers，"Cookie:"后的值即为我们要找的cookie值，复制即可</p>
             </div>
         </el-drawer>
     </div>
@@ -180,7 +183,10 @@ export default {
                         if (response.code == 200) {
                             this.closeDrawer();
                             this.drawer = false;
-                            this.$message.success('正在爬取中');
+                            setTimeout(() => {
+                                this.$message.success('正在爬取中');
+                                this.getData();
+                            }, 1500);
                         } else {
                             this.$message.error(response.msg);
                         }
@@ -204,6 +210,22 @@ export default {
         },
         weiboSerach() {
             this.drawer = true;
+        },
+        cleanData() {
+            // 二次确认删除
+            this.$confirm('确定要清空吗？', '提示', {
+                type: 'warning'
+            })
+                .then(() => {
+                    this.$get('/weibo/clean', {}, true).then(response => {
+                        if (response.code == 200) {
+                            this.getData();
+                        } else {
+                            this.$message.error(response.msg);
+                        }
+                    });
+                })
+                .catch(() => {});
         }
     }
 };
@@ -212,10 +234,10 @@ export default {
 .el-tooltip__popper {
     max-width: 40%;
 }
-.tip{
+.tip {
     margin: 0 auto;
     margin-top: 10px;
     margin-left: 30px;
-   color:lightcoral; 
+    color: lightcoral;
 }
 </style>
