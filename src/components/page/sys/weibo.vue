@@ -13,6 +13,7 @@
                     class="handle-date-picker"
                 ></el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button type="primary" @click="weiboSerach()" style="float:right;">话题爬取</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -26,7 +27,7 @@
                 <el-table-column prop="userId" label="微博id" align="center"></el-table-column>
                 <el-table-column prop="screenName" label="微博name" align="center"></el-table-column>
                 <el-table-column prop="text" label="微博类容" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="topics" label="话题" align="center"></el-table-column>
+                <el-table-column prop="topics" label="话题" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="createdAt" label="发表时间" align="center"></el-table-column>
                 <el-table-column prop="source" label="发布工具" align="center"></el-table-column>
 
@@ -65,6 +66,32 @@
                 ></el-pagination>
             </div>
         </div>
+        <el-drawer
+            title="话题爬取"
+            :visible.sync="drawer"
+            :with-header="false"
+            :show-close="true"
+            @close="closeDrawer()"
+        >
+            <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+                <el-form-item prop="key" label="微博话题" style="margin:0 auto;margin-top:30px">
+                    <el-input type="input" placeholder="请输入关键词" v-model="form.key"></el-input>
+                </el-form-item>
+                <el-form-item style="margin:0 auto;margin-top:30px">
+                    <el-button type="warning" plain @click="cancelForm()">取消</el-button>
+                    <el-button type="primary" plain @click="onSubmit('form')">确认</el-button>
+                    <el-button type="info" plain @click="resetForm('form')">重置</el-button>
+                </el-form-item>
+            </el-form>
+
+            <div>
+                <p class="tip" style="margin-top:80px">若数据过少，可能是cookie过期了,获取cookie步骤</p>
+                <p class="tip">1.用Chrome打开https://passport.weibo.cn/signin/login</p>
+                <p class="tip">2.输入微博的用户名、密码，登录</p>
+                <p class="tip">3.按F12键打开Chrome开发者工具，在地址栏输入并跳转到https://weibo.cn</p>
+                <p class="tip">4.依此点击Chrome开发者工具中的Network->Name中的weibo.cn->Headers->Request Headers，"Cookie:"后的值即为我们要找的cookie值，复制即可</p>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
@@ -78,14 +105,18 @@ export default {
                 startDate: null,
                 endDate: null,
                 current: 1,
-                size: 50
+                size: 30
             },
+            drawer: false,
             tableData: [],
             multipleSelection: [],
             pageTotal: 0,
             form: {},
             idx: -1,
-            id: -1
+            id: -1,
+            rules: {
+                key: [{ required: true, message: '关键词不能为空', trigger: 'blur' }]
+            }
         };
     },
     created() {
@@ -141,6 +172,38 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
             // console.log(this.multipleSelection);
+        }, //修改密码提交表单
+        onSubmit() {
+            this.$refs['form'].validate(valid => {
+                if (valid) {
+                    this.$get('/comm/getWbData', this.form, true).then(response => {
+                        if (response.code == 200) {
+                            this.closeDrawer();
+                            this.drawer = false;
+                            this.$message.success('正在爬取中');
+                        } else {
+                            this.$message.error(response.msg);
+                        }
+                    });
+                }
+            });
+        },
+        //取消操作
+        cancelForm() {
+            this.resetForm('form');
+            this.drawer = false;
+        },
+        closeDrawer() {
+            this.resetForm('form');
+        },
+        // 表单重置
+        resetForm(refName) {
+            if (this.$refs[refName]) {
+                this.$refs[refName].resetFields();
+            }
+        },
+        weiboSerach() {
+            this.drawer = true;
         }
     }
 };
@@ -148,5 +211,11 @@ export default {
 <style lang="scss">
 .el-tooltip__popper {
     max-width: 40%;
+}
+.tip{
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-left: 30px;
+   color:lightcoral; 
 }
 </style>
