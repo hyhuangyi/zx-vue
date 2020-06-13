@@ -61,8 +61,8 @@ router.beforeEach((to, from, next) => {
     const authUrl=localStorage.getItem('authUrl');//权限url
     if (!role && to.path !== '/login') {
         next('/login');
-    } else if (!menuList && to.path !== '/login' && to.path !== '/403') {
-        //菜单在localStorage找不到
+    } else if ((!menuList||!authUrl)&& to.path !== '/login' && to.path !== '/403') {
+        //菜单以及权限url在localStorage找不到
         ElementUI.Message({
             message: '登录过期',
             type: 'warning',

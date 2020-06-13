@@ -239,7 +239,7 @@ export default {
         //开启
         csdnContro(type, page) {
             if (type == 'el-icon-video-play') {
-                this.$get('/comm/start/csdn', { page: page }, false).then(response => {
+                this.$get('/comm/start/csdn', { page: page,minute:2}, false).then(response => {
                     if (response.code == 200) {
                         this.csdnFun();
                         this.$message.success('启动成功');
