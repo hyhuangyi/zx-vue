@@ -46,7 +46,6 @@
 </template>
 
 <script>
-
 export default {
     data: function() {
         return {
@@ -64,14 +63,22 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    this.$post('/comm/login',this.param,true).then(res => {
+                    this.$post('/comm/login', this.param, true).then(res => {
                         if (res.code == 200) {
                             this.$message.success('登录成功');
                             localStorage.setItem('username', this.param.username);
                             localStorage.setItem('userId', res.data.userId);
                             localStorage.setItem('roleList', JSON.stringify(res.data.roleList));
-                            localStorage.setItem('menuList', JSON.stringify(res.data.menuVOList));
-                            localStorage.setItem("token",res.data.token);
+                            localStorage.setItem('token', res.data.token);
+                            var authUrl = [];
+                            var menuList = res.data.menuVOList;
+                            menuList.forEach(element => {
+                                authUrl.push(element.menuUrl);
+                                this.handleChild(element, authUrl);
+                            });
+                            localStorage.setItem('menuList', JSON.stringify(menuList));
+                            localStorage.setItem('authUrl', JSON.stringify(authUrl));
+                            // console.log(authUrl);
                             // this.fyReportLogin();
                             this.$router.push('/');
                         } else {
@@ -86,23 +93,43 @@ export default {
             });
         },
         //帆远report单点登录
-        fyReportLogin(){
-             var username = this.param.username;
-             var password = this.param.password;
-            if (username === "") {
-                window.alert("请输入用户名");
+        fyReportLogin() {
+            var username = this.param.username;
+            var password = this.param.password;
+            if (username === '') {
+                window.alert('请输入用户名');
                 return false;
             }
-            if (password === "") {
-                window.alert("请输入密码");
+            if (password === '') {
+                window.alert('请输入密码');
                 return false;
             }
-            var url = "http://localhost:8075/webroot/decision/login/cross/domain" + "?fine_username=" + username + "&fine_password=" + password+"&validity=" + -2;
-            this.$jsonp(url).then(res => {
-                　　console.log(res)
-                }).catch(err => {
-                　　console.log(err)
+            var url =
+                'http://localhost:8075/webroot/decision/login/cross/domain' +
+                '?fine_username=' +
+                username +
+                '&fine_password=' +
+                password +
+                '&validity=' +
+                -2;
+            this.$jsonp(url)
+                .then(res => {
+                    console.log(res);
                 })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        //递归获取所有权限url
+        handleChild(e, list) {
+            var arr = [];
+            arr = e.subMenu;
+            if (arr.length != 0) {
+                arr.forEach(ec => {
+                    list.push(ec.menuUrl);
+                    this.handleChild(ec, list);
+                });
+            }
         }
     }
 };

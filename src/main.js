@@ -57,11 +57,11 @@ Vue.prototype.$get = get;
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | zx-vue`;
     const role = localStorage.getItem('username');
-    const menuList = localStorage.getItem('menuList');
-    //开放瀑布流
-    if (!role && to.path !== '/login'&&to.path!='/waterfall2') {
+    const menuList = localStorage.getItem('menuList');//菜单
+    const authUrl=localStorage.getItem('authUrl');//权限url
+    if (!role && to.path !== '/login') {
         next('/login');
-    } else if (!menuList && to.path !== '/login' && to.path !== '/403'&&to.path!='/waterfall2') {
+    } else if (!menuList && to.path !== '/login' && to.path !== '/403') {
         //菜单在localStorage找不到
         ElementUI.Message({
             message: '登录过期',
@@ -79,7 +79,12 @@ router.beforeEach((to, from, next) => {
                 confirmButtonText: '确定'
             });
         } else {
-            next();
+            //不在权限列表里 跳到403
+            if(to.path!='/login'&&to.path!='/403'&&to.path!='/404'&&authUrl.indexOf(to.path.substring(1))==-1){
+                next('403');
+            }else{
+                next();
+            }
         }
     }
 });
