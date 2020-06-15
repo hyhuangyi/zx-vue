@@ -25,13 +25,12 @@
                 @selection-change="handleSelectionChange"
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="userId" label="微博id" align="center"></el-table-column>
-                <el-table-column prop="screenName" label="微博name" align="center"></el-table-column>
+                <el-table-column prop="id" label="id" align="center"></el-table-column>
+                <el-table-column prop="userId" label="uid" align="center"></el-table-column>
+                <el-table-column prop="screenName" label="uname" align="center"></el-table-column>
                 <el-table-column prop="text" label="微博类容" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="topics" label="话题" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="createdAt" label="发表时间" align="center"></el-table-column>
                 <el-table-column prop="source" label="发布工具" align="center"></el-table-column>
-
                 <el-table-column prop="imgPath" label="图片">
                     <template slot-scope="scope">
                         <el-popover placement="left" title trigger="hover">
@@ -54,6 +53,9 @@
                 <el-table-column prop="attitudesCount" label="点赞数" align="center" sortable></el-table-column>
                 <el-table-column prop="commentsCount" label="评论数" align="center" sortable></el-table-column>
                 <el-table-column prop="repostsCount" label="转发数" align="center" sortable></el-table-column>
+                <el-table-column prop="createdAt" label="发表时间" align="center" sortable></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+                <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
