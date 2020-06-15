@@ -25,9 +25,10 @@
                 @selection-change="handleSelectionChange"
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="id" label="id" align="center"></el-table-column>
-                <el-table-column prop="userId" label="uid" align="center"></el-table-column>
-                <el-table-column prop="screenName" label="uname" align="center"></el-table-column>
+                <el-table-column prop="id" label="微博ID" align="center"></el-table-column>
+                <el-table-column prop="bid" label="详情ID" align="center"></el-table-column>
+                <el-table-column prop="userId" label="用户ID" align="center"></el-table-column>
+                <el-table-column prop="screenName" label="微博名" align="center"></el-table-column>
                 <el-table-column prop="text" label="微博类容" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="topics" label="话题" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="source" label="发布工具" align="center"></el-table-column>
@@ -54,8 +55,18 @@
                 <el-table-column prop="commentsCount" label="评论数" align="center" sortable></el-table-column>
                 <el-table-column prop="repostsCount" label="转发数" align="center" sortable></el-table-column>
                 <el-table-column prop="createdAt" label="发表时间" align="center" sortable></el-table-column>
-                <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-                <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
+                <!-- <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+                <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>-->
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                            type="text"
+                            icon="el-icon-chat-line-square"
+                            class="green"
+                            @click="handleDetail(scope.row)"
+                        >微博详情</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -97,6 +108,17 @@
                 >4.依此点击Chrome开发者工具中的Network->Name中的weibo.cn->Headers->Request Headers，"Cookie:"后的值即为我们要找的cookie值，复制即可</p>
             </div>
         </el-drawer>
+        <!-- 添加或修改参数配置对话框 -->
+        <el-dialog title="微博详情" :visible.sync="open" width="70%" append-to-body>
+            <div v-loading="loading" style="height:600px">
+                <iframe
+                    :src="src"
+                    frameborder="no"
+                    style="width: 100%;height: 100%"
+                    scrolling="auto"
+                />
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -113,6 +135,9 @@ export default {
                 size: 30
             },
             drawer: false,
+            open: false,
+            src: '',
+            loading: true,
             tableData: [],
             multipleSelection: [],
             pageTotal: 0,
@@ -128,6 +153,11 @@ export default {
         setTimeout(() => {
             this.getData();
         }, 350);
+    },
+    mounted: function() {
+        setTimeout(() => {
+            this.loading = false;
+        }, 230);
     },
     methods: {
         // 获取数据
@@ -146,6 +176,11 @@ export default {
                     this.$message.error(res.msg);
                 }
             });
+        },
+        handleDetail(src){
+            this.open=true;
+            // this.src='https://weibo.com/'+src.userId+"/"+src.bid;
+            this.src='https://m.weibo.cn/detail/'+src.id;
         },
         //处理日期
         handDate() {
