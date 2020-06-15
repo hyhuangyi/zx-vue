@@ -108,7 +108,7 @@
                 >4.依此点击Chrome开发者工具中的Network->Name中的weibo.cn->Headers->Request Headers，"Cookie:"后的值即为我们要找的cookie值，复制即可</p>
             </div>
         </el-drawer>
-        <!-- 添加或修改参数配置对话框 -->
+        <!-- 微博详情弹框 -->
         <el-dialog title="微博详情" :visible.sync="open" width="70%" append-to-body>
             <div v-loading="loading" style="height:600px">
                 <iframe
@@ -177,10 +177,10 @@ export default {
                 }
             });
         },
-        handleDetail(src){
-            this.open=true;
+        handleDetail(src) {
+            this.open = true;
             // this.src='https://weibo.com/'+src.userId+"/"+src.bid;
-            this.src='https://m.weibo.cn/detail/'+src.id;
+            this.src = 'https://m.weibo.cn/detail/' + src.id;
         },
         //处理日期
         handDate() {
