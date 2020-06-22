@@ -4,6 +4,7 @@
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="基金名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button type="primary" @click="exportZero" style="float:right;">导出</el-button>
             </div>
             <el-table
                 :data="tableData.slice((query.current-1)*query.size,query.current*query.size)"
@@ -18,7 +19,7 @@
                 <el-table-column prop="jzrq" label="净值日期" align="center"></el-table-column>
                 <el-table-column prop="dwjz" label="单位净值" sortable align="center"></el-table-column>
                 <el-table-column prop="gztime" label="估值时间" align="center"></el-table-column>
-                <el-table-column prop="gsz" label="估算值"  align="center"></el-table-column>
+                <el-table-column prop="gsz" label="估算值" align="center"></el-table-column>
                 <el-table-column prop="gszzl" label="估算率" sortable align="center">
                     <template scope="scope">
                         <span v-if="scope.row.gszzl>0" style="color: red">{{scope.row.gszzl}}</span>
@@ -72,6 +73,12 @@ export default {
                     this.$message.error(res.msg);
                 }
             });
+        },
+        //导出
+        exportZero() {
+            //会刷新
+            // window.open(this.GLOBAL_BaseUrl+'/comm/fund/zero/export');
+            location.href = this.GLOBAL_BaseUrl + '/comm/fund/zero/export';
         },
         // 改变当前页数(current)大小
         handlePageChange(val) {
