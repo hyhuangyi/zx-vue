@@ -65,7 +65,7 @@ export default {
         // 获取数据
         getData() {
             this.show = [];
-            this.$get('/comm/fund/zero/rank', this.query, true).then(res => {
+            this.$get('/fund/zero/rank', this.query, true).then(res => {
                 if (res.code == 200) {
                     this.tableData = res.data;
                     this.allList = res.data;
