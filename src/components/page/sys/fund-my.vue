@@ -77,8 +77,14 @@
                         >{{scope.row.remark}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" align="center">
+                <el-table-column label="操作" align="center" width="200px">
                     <template slot-scope="scope">
+                        <el-button
+                            type="text"
+                            icon="el-icon-chat-line-square"
+                            class="green"
+                            @click="handleDetail(scope.row)"
+                        >详情</el-button>
                         <el-button
                             size="mini"
                             type="text"
@@ -133,6 +139,18 @@
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
+
+        <!-- 微博详情弹框 -->
+        <el-dialog title="基金详情" :visible.sync="detailOpen" width="70%" append-to-body>
+            <div v-loading="loading" style="height:600px">
+                <iframe
+                    :src="src"
+                    frameborder="no"
+                    style="width: 100%;height: 100%"
+                    scrolling="auto"
+                />
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -153,6 +171,8 @@ export default {
             //     { k: 'fund', v: '自选基金' }
             // ],
             open: false,
+            detailOpen: false,
+            src: '',
             form: {
                 code: '',
                 holdMoney: '0',
@@ -257,7 +277,7 @@ export default {
         },
         //修改数据
         handleEdit(index, row) {
-            if (this.oldVal[index] == row.holdMoney&&row.holdMoney=='0') {
+            if (this.oldVal[index] == row.holdMoney && row.holdMoney == '0') {
                 this.$set(this.show, index, false);
                 return;
             } else {
@@ -318,6 +338,11 @@ export default {
                     this.$message.error(response.msg);
                 }
             });
+        },
+        //基金详情
+        handleDetail(row) {
+            this.detailOpen = true;
+            this.src = 'http://fund.eastmoney.com/' + row.fundcode + '.html';
         },
         //删除基金
         delFund(row) {
