@@ -178,6 +178,7 @@ export default {
                 holdMoney: '0',
                 remark: '-'
             },
+            loading: true,
             tableData: [],
             allList: [],
             show: [],
@@ -198,6 +199,9 @@ export default {
                 this.$message.error(res.msg);
             }
         });
+        setTimeout(() => {
+            this.loading = false;
+        }, 230);
     },
     methods: {
         // 获取数据
@@ -245,7 +249,8 @@ export default {
         },
         //编辑备注
         handleRemark(index, row) {
-            if (this.oldRemark[index] == row.remark) {
+            //值没变化则不调接口
+            if (this.oldRemark[index] === row.remark) {
                 this.$set(this.showRemark, index, false);
                 return;
             } else {
@@ -277,7 +282,8 @@ export default {
         },
         //修改数据
         handleEdit(index, row) {
-            if (this.oldVal[index] == row.holdMoney && row.holdMoney == '0'&& this.oldVal[index]=='0') {
+            //值没变化则不调接口
+            if (this.oldVal[index] === row.holdMoney) {
                 this.$set(this.show, index, false);
                 return;
             } else {
