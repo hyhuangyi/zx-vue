@@ -277,7 +277,7 @@ export default {
         },
         //修改数据
         handleEdit(index, row) {
-            if (this.oldVal[index] == row.holdMoney && row.holdMoney == '0') {
+            if (this.oldVal[index] == row.holdMoney && row.holdMoney == '0'&& this.oldVal[index]=='0') {
                 this.$set(this.show, index, false);
                 return;
             } else {
