@@ -38,6 +38,18 @@
                 </el-table-column>
 
                 <el-table-column prop="holdMoney" label="持有" sortable align="center">
+                    <template slot="header" slot-scope="scope">
+                        <span>持有 </span>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="持有金额,点击数字进行编辑"
+                            placement="right"
+                        >
+                            <i class="el-icon-info"></i>
+                        </el-tooltip>
+                    </template>
+
                     <template slot-scope="scope">
                         <el-input
                             type="number"
@@ -63,6 +75,17 @@
                 </el-table-column>
 
                 <el-table-column prop="remark" label="备注" sortable align="center">
+                    <template slot="header" slot-scope="scope">
+                        <span>备注 </span>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="备注，点击文字进行编辑"
+                            placement="right"
+                        >
+                            <i class="el-icon-info"></i>
+                        </el-tooltip>
+                    </template>
                     <template slot-scope="scope">
                         <el-input
                             :ref="'input_remark'+scope.$index"
