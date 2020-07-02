@@ -37,13 +37,13 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="holdMoney" label="持有" sortable align="center">
+                <el-table-column prop="holdNum" label="持有份额" sortable align="center">
                     <template slot="header" slot-scope="scope">
-                        <span>持有 </span>
+                        <span>持有份额</span>
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="持有金额,点击数字进行编辑"
+                            content="持有份额,点击数字进行编辑"
                             placement="right"
                         >
                             <i class="el-icon-info"></i>
@@ -57,15 +57,16 @@
                             :ref="'input'+scope.$index"
                             placeholder="请输入内容"
                             v-show="show[scope.$index]"
-                            v-model="scope.row.holdMoney"
+                            v-model="scope.row.holdNum"
                             @blur="handleEdit(scope.$index, scope.row)"
                         ></el-input>
                         <span
                             v-show="!show[scope.$index]"
                             @click="toEdit(scope.$index)"
-                        >{{scope.row.holdMoney}}</span>
+                        >{{scope.row.holdNum}}</span>
                     </template>
                 </el-table-column>
+                <el-table-column prop="holdMoney" label="持有金额" sortable align="center"></el-table-column>
 
                 <el-table-column prop="ly" label="估值利润" sortable align="center">
                     <template scope="scope">
@@ -76,7 +77,7 @@
 
                 <el-table-column prop="remark" label="备注" sortable align="center">
                     <template slot="header" slot-scope="scope">
-                        <span>备注 </span>
+                        <span>备注</span>
                         <el-tooltip
                             class="item"
                             effect="dark"
@@ -146,7 +147,7 @@
                     </el-autocomplete>
                 </el-form-item>
                 <el-form-item label="持仓金额">
-                    <el-input v-model="form.holdMoney" type="number" style="width:350px" :min="0"></el-input>
+                    <el-input v-model="form.holdNum" type="number" style="width:350px" :min="0"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
                     <el-input
@@ -198,7 +199,7 @@ export default {
             src: '',
             form: {
                 code: '',
-                holdMoney: '0',
+                holdNum: '0',
                 remark: '-'
             },
             loading: true,
@@ -304,11 +305,11 @@ export default {
         //修改数据
         handleEdit(index, row) {
             //值没变化则不调接口
-            if (this.oldVal[index] === row.holdMoney) {
+            if (this.oldVal[index] === row.holdNum) {
                 this.$set(this.show, index, false);
                 return;
             } else {
-                this.$post('/fund/edit', { id: row.id, holdMoney: row.holdMoney == '' ? '0' : row.holdMoney }, true).then(res => {
+                this.$post('/fund/edit', { id: row.id, holdNum: row.holdNum == '' ? '0' : row.holdNum }, true).then(res => {
                     if (res.code == 200) {
                         //直接赋值视图不刷新
                         this.$set(this.show, index, false);
@@ -422,8 +423,8 @@ export default {
                     sums[index] = '合计';
                     return;
                 }
-                //这些字段不合计
-                if (index === 2 || index === 3 || index === 4 || index === 5 || index === 6 || index === 9) {
+                //非持有金额和估算利润不合计
+                if (index !== 8 && index !== 9) {
                     sums[index] = '/';
                     return;
                 }
