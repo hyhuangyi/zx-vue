@@ -114,7 +114,7 @@
                         type="info"
                         plain
                         :icon="i1"
-                        @click="csdnContro(i1,1)"
+                        @click="csdnControl(i1,1)"
                         style=" margin: 0 auto; margin-top: 20px;"
                     >{{v1}}</el-button>
                     <br />
@@ -122,7 +122,7 @@
                         type="info"
                         plain
                         :icon="i2"
-                        @click="csdnContro(i2,2)"
+                        @click="csdnControl(i2,2)"
                         style=" margin: 0 auto; margin-top: 20px;"
                     >{{v2}}</el-button>
                 </div>
@@ -237,7 +237,7 @@ export default {
             });
         },
         //开启
-        csdnContro(type, page) {
+        csdnControl(type, page) {
             if (type == 'el-icon-video-play') {
                 this.$get('/comm/start/csdn', { page: page,minute:2}, false).then(response => {
                     if (response.code == 200) {
