@@ -199,9 +199,7 @@ export default {
                 this.$message.error(res.msg);
             }
         });
-        setTimeout(() => {
-            this.loading = false;
-        }, 230);
+        this.loading = false;
     },
     methods: {
         // 获取数据
