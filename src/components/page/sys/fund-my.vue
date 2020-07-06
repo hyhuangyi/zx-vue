@@ -146,7 +146,7 @@
                         </template>
                     </el-autocomplete>
                 </el-form-item>
-                <el-form-item label="持仓金额">
+                <el-form-item label="持仓份额">
                     <el-input v-model="form.holdNum" type="number" style="width:350px" :min="0"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
