@@ -252,6 +252,7 @@ export default {
                 this.getData();
             } else {
                 this.search(this.query.name, this.tableData);
+                this.$set(this.query, "current", 1);
             }
         },
         // 执行搜索(前端模糊查询)
