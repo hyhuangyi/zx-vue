@@ -11,11 +11,12 @@
                         :value="item.k"
                     ></el-option>
                 </el-select>-->
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-                <el-button type="primary" icon="el-icon-plus" style="float:right;" @click="toAdd">新增</el-button>
+                <el-button type="primary" icon="el-icon-search" class="mr10" @click="handleSearch">搜索</el-button>
+                <el-button type="primary" icon="el-icon-s-data" @click="handleQs">趋势</el-button>
+                <el-button type="primary" icon="el-icon-plus" style="float: right" @click="toAdd">新增</el-button>
             </div>
             <el-table
-                :data="tableData.slice((query.current-1)*query.size,query.current*query.size)"
+                :data="tableData.slice((query.current - 1) * query.size, query.current * query.size)"
                 border
                 class="table"
                 ref="multipleTable"
@@ -32,20 +33,15 @@
                 <el-table-column prop="gsz" label="估算值" sortable align="center"></el-table-column>
                 <el-table-column prop="gszzl" label="估算率" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.gszzl>0" style="color: red">{{scope.row.gszzl}}</span>
-                        <span v-else style="color: green">{{scope.row.gszzl}}</span>
+                        <span v-if="scope.row.gszzl > 0" style="color: red">{{ scope.row.gszzl }}</span>
+                        <span v-else style="color: green">{{ scope.row.gszzl }}</span>
                     </template>
                 </el-table-column>
 
                 <el-table-column prop="holdNum" label="持有份额" sortable align="center">
                     <template slot="header" slot-scope="scope">
                         <span>持有份额</span>
-                        <el-tooltip
-                            class="item"
-                            effect="dark"
-                            content="持有份额,点击数字进行编辑"
-                            placement="right"
-                        >
+                        <el-tooltip class="item" effect="dark" content="持有份额,点击数字进行编辑" placement="right">
                             <i class="el-icon-info"></i>
                         </el-tooltip>
                     </template>
@@ -54,67 +50,48 @@
                         <el-input
                             type="number"
                             :min="0"
-                            :ref="'input'+scope.$index"
+                            :ref="'input' + scope.$index"
                             placeholder="请输入内容"
                             v-show="show[scope.$index]"
                             v-model="scope.row.holdNum"
                             @blur="handleEdit(scope.$index, scope.row)"
                         ></el-input>
-                        <span
-                            v-show="!show[scope.$index]"
-                            @click="toEdit(scope.$index)"
-                        >{{scope.row.holdNum}}</span>
+                        <span v-show="!show[scope.$index]" @click="toEdit(scope.$index)">{{ scope.row.holdNum }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="holdMoney" label="持有金额" sortable align="center"></el-table-column>
 
                 <el-table-column prop="ly" label="估值利润" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.ly>0" style="color: red">{{scope.row.ly}}</span>
-                        <span v-else style="color: green">{{scope.row.ly}}</span>
+                        <span v-if="scope.row.ly > 0" style="color: red">{{ scope.row.ly }}</span>
+                        <span v-else style="color: green">{{ scope.row.ly }}</span>
                     </template>
                 </el-table-column>
 
                 <el-table-column prop="remark" label="备注" sortable align="center">
                     <template slot="header" slot-scope="scope">
                         <span>备注</span>
-                        <el-tooltip
-                            class="item"
-                            effect="dark"
-                            content="备注，点击文字进行编辑"
-                            placement="right"
-                        >
+                        <el-tooltip class="item" effect="dark" content="备注，点击文字进行编辑" placement="right">
                             <i class="el-icon-info"></i>
                         </el-tooltip>
                     </template>
                     <template slot-scope="scope">
                         <el-input
-                            :ref="'input_remark'+scope.$index"
+                            :ref="'input_remark' + scope.$index"
                             placeholder="请输入内容"
                             v-show="showRemark[scope.$index]"
                             v-model="scope.row.remark"
                             @blur="handleRemark(scope.$index, scope.row)"
                         ></el-input>
-                        <span
-                            v-show="!showRemark[scope.$index]"
-                            @click="toEditRemark(scope.$index)"
-                        >{{scope.row.remark}}</span>
+                        <span v-show="!showRemark[scope.$index]" @click="toEditRemark(scope.$index)">{{ scope.row.remark }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="200px">
                     <template slot-scope="scope">
-                        <el-button
-                            type="text"
-                            icon="el-icon-chat-line-square"
-                            class="green"
-                            @click="handleDetail(scope.row)"
-                        >详情</el-button>
-                        <el-button
-                            size="mini"
-                            type="text"
-                            icon="el-icon-delete"
-                            @click="delFund(scope.row)"
-                        >删除</el-button>
+                        <el-button type="text" icon="el-icon-chat-line-square" class="green" @click="handleDetail(scope.row)"
+                            >详情</el-button
+                        >
+                        <el-button size="mini" type="text" icon="el-icon-delete" @click="delFund(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -138,7 +115,7 @@
                         :fetch-suggestions="querySearch"
                         placeholder="请输入内容"
                         @select="handleSelect"
-                        style="width:350px"
+                        style="width: 350px"
                     >
                         <i class="el-icon-edit el-input__icon" slot="suffix"></i> -->
                         <template slot-scope="{ item }">
@@ -147,15 +124,10 @@
                     </el-autocomplete>
                 </el-form-item>
                 <el-form-item label="持仓份额">
-                    <el-input v-model="form.holdNum" type="number" style="width:350px" :min="0"></el-input>
+                    <el-input v-model="form.holdNum" type="number" style="width: 350px" :min="0"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input
-                        v-model="form.remark"
-                        type="textarea"
-                        placeholder="请输入内容"
-                        style="width:350px"
-                    ></el-input>
+                    <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 350px"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -164,16 +136,22 @@
             </div>
         </el-dialog>
 
-        <!-- 微博详情弹框 -->
+        <!-- 基金详情弹框 -->
         <el-dialog title="基金详情" :visible.sync="detailOpen" width="70%" append-to-body>
-            <div v-loading="loading" style="height:600px">
-                <iframe
-                    :src="src"
-                    frameborder="no"
-                    style="width: 100%;height: 100%"
-                    scrolling="auto"
-                />
+            <div v-loading="loading" style="height: 600px">
+                <iframe :src="src" frameborder="no" style="width: 100%; height: 100%" scrolling="auto" />
             </div>
+        </el-dialog>
+
+        <!-- 趋势分析 -->
+        <el-dialog title="趋势" :visible.sync="qsOpen" width="75%" append-to-body>
+            <el-row :gutter="20">
+                <el-col>
+                    <el-card shadow="hover">
+                        <div id="box1" style="width: 100%; height: 420px"></div>
+                    </el-card>
+                </el-col>
+            </el-row>
         </el-dialog>
     </div>
 </template>
@@ -196,6 +174,7 @@ export default {
             // ],
             open: false,
             detailOpen: false,
+            qsOpen: false,
             src: '',
             form: {
                 code: '',
@@ -216,7 +195,7 @@ export default {
     },
     mounted() {
         //初始化获取全部下拉数据//redis缓存
-        this.$post('/fund/select', {}, true).then(res => {
+        this.$post('/fund/select', {}, true).then((res) => {
             if (res.code == 200) {
                 this.restaurants = res.data;
             } else {
@@ -229,7 +208,7 @@ export default {
         // 获取数据
         getData() {
             this.show = [];
-            this.$get('/fund/list', this.query, true).then(res => {
+            this.$get('/fund/list', this.query, true).then((res) => {
                 if (res.code == 200) {
                     this.tableData = res.data;
                     this.allList = res.data;
@@ -252,7 +231,7 @@ export default {
                 this.getData();
             } else {
                 this.search(this.query.name, this.tableData);
-                this.$set(this.query, "current", 1);
+                this.$set(this.query, 'current', 1);
             }
         },
         // 执行搜索(前端模糊查询)
@@ -262,7 +241,7 @@ export default {
             //toLowerCase():用于把字符串转为小写，让模糊查询更加清晰
             let newListData = []; // 用于存放搜索出来数据的新数组
             if (key) {
-                this.allList.filter(item => {
+                this.allList.filter((item) => {
                     if (item.name.toLowerCase().indexOf(key) !== -1) {
                         newListData.push(item);
                     }
@@ -277,7 +256,7 @@ export default {
                 this.$set(this.showRemark, index, false);
                 return;
             } else {
-                this.$post('/fund/editRemark', { id: row.id, remark: row.remark == '' ? '-' : row.remark }, true).then(res => {
+                this.$post('/fund/editRemark', { id: row.id, remark: row.remark == '' ? '-' : row.remark }, true).then((res) => {
                     if (res.code == 200) {
                         //直接赋值视图不刷新
                         this.$set(this.showRemark, index, false);
@@ -310,7 +289,7 @@ export default {
                 this.$set(this.show, index, false);
                 return;
             } else {
-                this.$post('/fund/edit', { id: row.id, holdNum: row.holdNum == '' ? '0' : row.holdNum }, true).then(res => {
+                this.$post('/fund/edit', { id: row.id, holdNum: row.holdNum == '' ? '0' : row.holdNum }, true).then((res) => {
                     if (res.code == 200) {
                         //直接赋值视图不刷新
                         this.$set(this.show, index, false);
@@ -348,7 +327,7 @@ export default {
             cb(results);
         },
         createFilter(queryString) {
-            return restaurant => {
+            return (restaurant) => {
                 return restaurant.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
             };
         },
@@ -358,7 +337,7 @@ export default {
         },
         //新增基金
         submitForm() {
-            this.$post('/fund/add', this.form, true).then(response => {
+            this.$post('/fund/add', this.form, true).then((response) => {
                 if (response.code == 200) {
                     this.open = false;
                     this.getData();
@@ -373,6 +352,12 @@ export default {
             this.detailOpen = true;
             this.src = 'http://fund.eastmoney.com/' + row.fundcode + '.html';
         },
+        handleQs() {
+            this.qsOpen = true;
+            this.$nextTick(() => {
+                this.drawLine();
+            });
+        },
         //删除基金
         delFund(row) {
             // 二次确认删除
@@ -380,7 +365,7 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    this.$post('/fund/del', { id: row.id }, true).then(response => {
+                    this.$post('/fund/del', { id: row.id }, true).then((response) => {
                         if (response.code == 200) {
                             this.$message.success('删除成功');
                             this.getData();
@@ -429,9 +414,9 @@ export default {
                     sums[index] = '/';
                     return;
                 }
-                const values = data.map(item => Number(item[column.property]));
+                const values = data.map((item) => Number(item[column.property]));
                 //合计
-                if (!values.every(value => isNaN(value))) {
+                if (!values.every((value) => isNaN(value))) {
                     sums[index] = values.reduce((prev, curr) => {
                         const value = Number(curr);
                         if (!isNaN(value)) {
@@ -446,6 +431,34 @@ export default {
                 }
             });
             return sums;
+        },
+        drawLine() {
+            //折线
+            this.$get('comm/stock/chartData', { type: 'line' }, true).then((res) => {
+                let data = res.data;
+                if (res.code == 200) {
+                    // 基于准备好的dom，初始化echarts实例，所以只能在mounted中调用
+                    this.$nextTick(function () {
+                        let myChart = this.$echarts.init(document.getElementById('box1'));
+                        // 绘制图表
+                        myChart.setOption({
+                            title: { text: '折线' },
+                            tooltip: {},
+                            legend: {
+                                data: data.legend
+                            },
+                            xAxis: {
+                                // x坐标
+                                data: data.xAxis
+                            },
+                            yAxis: {}, // y坐标
+                            series: data.series
+                        });
+                    });
+                } else {
+                    // this.$message.error(res.msg);
+                }
+            });
         }
     }
 };
