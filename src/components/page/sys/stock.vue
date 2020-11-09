@@ -23,7 +23,7 @@
                         <span v-else style="color: green">{{ parseFloat(scope.row.rate * 100).toFixed(2) }}</span>
                     </template>
                 </el-table-column>
-
+                <el-table-column prop="industry" label="行业" align="center"></el-table-column>
                 <el-table-column label="操作" align="center" width="200px">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-chat-line-square" class="green" @click="handleDetail(scope.row)"
