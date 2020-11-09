@@ -19,8 +19,8 @@
                 <el-table-column prop="price" label="最新价" align="center"></el-table-column>
                 <el-table-column prop="rate" label="最新涨幅" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.rate > 0" style="color: red">{{ parseFloat(scope.row.rate * 100).toFixed(2) }}</span>
-                        <span v-else style="color: green">{{ parseFloat(scope.row.rate * 100).toFixed(2) }}</span>
+                        <span v-if="scope.row.rate > 0" style="color: red">{{scope.row.rate}}</span>
+                        <span v-else style="color: green">{{ scope.row.rate * 100 }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="industry" label="行业" align="center"></el-table-column>
