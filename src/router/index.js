@@ -149,7 +149,11 @@ export default new Router({
                 },{
                     path: '/fund-zero',
                     component: () => import(/* webpackChunkName: "fund-zero" */ '../components/page/sys/fund-zero.vue'),
-                    meta: { title: ' 免费率基' }
+                    meta: { title: '免费率基' }
+                },{
+                    path: '/stock',
+                    component: () => import(/* webpackChunkName: "stock" */ '../components/page/sys/stock.vue'),
+                    meta: { title: '强势股票' }
                 }
             ]
         },

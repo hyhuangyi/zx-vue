@@ -12,7 +12,6 @@
                     ></el-option>
                 </el-select>-->
                 <el-button type="primary" icon="el-icon-search" class="mr10" @click="handleSearch">搜索</el-button>
-                <el-button type="primary" icon="el-icon-s-data" @click="handleQs">趋势</el-button>
                 <el-button type="primary" icon="el-icon-plus" style="float: right" @click="toAdd">新增</el-button>
             </div>
             <el-table
@@ -107,7 +106,7 @@
             </div>
         </div>
         <!-- 新增基金 -->
-        <el-dialog title="新增基金" :visible.sync="open" width="33%" append-to-body>
+        <el-dialog title="新增基金" :visible.sync="open" width="33%" @close='cancel()' append-to-body>
             <el-form ref="form" v-model="form" label-width="80px">
                 <el-form-item label="基金">
                     <el-autocomplete
@@ -141,17 +140,6 @@
             <div v-loading="loading" style="height: 600px">
                 <iframe :src="src" frameborder="no" style="width: 100%; height: 100%" scrolling="auto" />
             </div>
-        </el-dialog>
-
-        <!-- 趋势分析 -->
-        <el-dialog title="趋势" :visible.sync="qsOpen" width="75%" append-to-body>
-            <el-row :gutter="20">
-                <el-col>
-                    <el-card shadow="hover">
-                        <div id="box1" style="width: 100%; height: 420px"></div>
-                    </el-card>
-                </el-col>
-            </el-row>
         </el-dialog>
     </div>
 </template>
@@ -352,12 +340,6 @@ export default {
             this.detailOpen = true;
             this.src = 'http://fund.eastmoney.com/' + row.fundcode + '.html';
         },
-        handleQs() {
-            this.qsOpen = true;
-            this.$nextTick(() => {
-                this.drawLine();
-            });
-        },
         //删除基金
         delFund(row) {
             // 二次确认删除
@@ -431,34 +413,6 @@ export default {
                 }
             });
             return sums;
-        },
-        drawLine() {
-            //折线
-            this.$get('comm/stock/chartData', { type: 'line' }, true).then((res) => {
-                let data = res.data;
-                if (res.code == 200) {
-                    // 基于准备好的dom，初始化echarts实例，所以只能在mounted中调用
-                    this.$nextTick(function () {
-                        let myChart = this.$echarts.init(document.getElementById('box1'));
-                        // 绘制图表
-                        myChart.setOption({
-                            title: { text: '折线' },
-                            tooltip: {},
-                            legend: {
-                                data: data.legend
-                            },
-                            xAxis: {
-                                // x坐标
-                                data: data.xAxis
-                            },
-                            yAxis: {}, // y坐标
-                            series: data.series
-                        });
-                    });
-                } else {
-                    // this.$message.error(res.msg);
-                }
-            });
         }
     }
 };
