@@ -212,6 +212,7 @@ export default {
         //改变每页条数(size)大小
         handleSizeChage(val) {
             this.$set(this.query, 'size', val);
+            this.$set(this.query, 'current', 1);
         },
         // 触发搜索按钮
         handleSearch() {

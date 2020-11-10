@@ -129,6 +129,7 @@ export default {
         //改变每页条数(size)大小
         handleSizeChage(val) {
             this.$set(this.query, 'size', val);
+            this.$set(this.query, 'current', 1);
             this.getData();
         },
         // 多选操作

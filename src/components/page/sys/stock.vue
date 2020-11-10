@@ -3,7 +3,7 @@
         <div class="container">
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="股票名" class="handle-input mr10"></el-input>
-                 <el-select v-model="query.type" placeholder="请选择" class="handle-input mr10">
+                 <el-select v-model="query.type" placeholder="请选择" @change="getData()" class="handle-input mr10">
                     <el-option
                         v-for="item in selectData"
                         :key="item.k"
@@ -44,6 +44,7 @@
                 <el-pagination
                     layout="sizes, prev,pager, next,total,jumper"
                     :current-page="query.current"
+                    :page-sizes="[50, 100, 200, 300]"
                     :page-size="query.size"
                     :total="tableData.length"
                     @current-change="handlePageChange"
@@ -81,7 +82,7 @@ export default {
                 name: '',
                 current: 1,
                 type:'1',
-                size: 100
+                size: 50
             },
               selectData: [
                 { k: '1', v: 'macd金叉' },
@@ -135,6 +136,7 @@ export default {
         //改变每页条数(size)大小
         handleSizeChage(val) {
             this.$set(this.query, 'size', val);
+            this.$set(this.query, 'current', 1);
         },
         // 触发搜索按钮
         handleSearch() {
