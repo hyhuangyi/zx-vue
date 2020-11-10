@@ -3,6 +3,14 @@
         <div class="container">
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="股票名" class="handle-input mr10"></el-input>
+                 <el-select v-model="query.type" placeholder="请选择" class="handle-input mr10">
+                    <el-option
+                        v-for="item in selectData"
+                        :key="item.k"
+                        :label="item.v"
+                        :value="item.k"
+                    ></el-option>
+                </el-select>
                 <el-button type="primary" icon="el-icon-search" class="mr10" @click="handleSearch">搜索</el-button>
                 <el-button type="primary" icon="el-icon-s-data" @click="handleQs">趋势</el-button>
                 <el-button type="primary" @click="exportStock" style="float: right">导出</el-button>
@@ -20,7 +28,7 @@
                 <el-table-column prop="rate" label="最新涨幅" sortable align="center">
                     <template scope="scope">
                         <span v-if="scope.row.rate > 0" style="color: red">{{scope.row.rate}}</span>
-                        <span v-else style="color: green">{{ scope.row.rate * 100 }}</span>
+                        <span v-else style="color: green">{{ scope.row.rate }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="industry" label="行业" align="center"></el-table-column>
@@ -72,8 +80,16 @@ export default {
             query: {
                 name: '',
                 current: 1,
-                size: 30
+                type:'1',
+                size: 100
             },
+              selectData: [
+                { k: '1', v: 'macd金叉' },
+                { k: '2', v: '连续3日上涨' },
+                { k: '3', v: '布林突破上轨' },
+                { k: '4', v: '市盈率最小' },
+                { k: '0', v: 'macd金叉&&布林突破&&连续3日上涨' }
+            ],
             detailOpen: false,
             qsOpen: false,
             src: '',
@@ -92,7 +108,7 @@ export default {
         // 获取数据
         getData() {
             this.show = [];
-            this.$get('/comm/stock/getJiaoJiCode', this.query, true).then((res) => {
+            this.$get('/comm/stock/guoRenCode', this.query, true).then((res) => {
                 if (res.code == 200) {
                     this.tableData = res.data;
                     this.allList = res.data;
@@ -146,8 +162,8 @@ export default {
         },
         exportStock() {
             //会刷新
-            // window.open(this.GLOBAL_BaseUrl+'/comm/stock/jiaoji/export');
-            location.href = this.GLOBAL_BaseUrl + '/comm/stock/jiaoji/export';
+            // window.open(this.GLOBAL_BaseUrl+'/comm/stock/export');
+            location.href = this.GLOBAL_BaseUrl + '/comm/stock/export?type='+this.query.type;
         },
         drawLine() {
             //折线
