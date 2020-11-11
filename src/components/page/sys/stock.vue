@@ -108,7 +108,7 @@ export default {
     methods: {
         // 获取数据
         getData() {
-            this.show = [];
+            this.$set(this.query, 'current', 1);
             this.$get('/comm/stock/guoRenCode', this.query, true).then((res) => {
                 if (res.code == 200) {
                     this.tableData = res.data;
@@ -155,7 +155,7 @@ export default {
             let newListData = []; // 用于存放搜索出来数据的新数组
             if (key) {
                 this.allList.filter((item) => {
-                    if (item.name.toLowerCase().indexOf(key) !== -1) {
+                    if (item.name.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
                         newListData.push(item);
                     }
                 });
