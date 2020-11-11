@@ -151,9 +151,9 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "fund-zero" */ '../components/page/sys/fund-zero.vue'),
                     meta: { title: '免费率基' }
                 },{
-                    path: '/stock',
-                    component: () => import(/* webpackChunkName: "stock" */ '../components/page/sys/stock.vue'),
-                    meta: { title: '强势股票' }
+                    path: '/guoren',
+                    component: () => import(/* webpackChunkName: "guoren" */ '../components/page/sys/guoren.vue'),
+                    meta: { title: '果仁数据' }
                 }
             ]
         },
