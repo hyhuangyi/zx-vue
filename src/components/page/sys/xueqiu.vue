@@ -3,17 +3,10 @@
         <div class="container">
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="股票名" class="handle-input mr10"></el-input>
-                 <el-select v-model="query.type" placeholder="请选择" @change="getData()" class="handle-input mr10">
-                    <el-option
-                        v-for="item in selectData"
-                        :key="item.k"
-                        :label="item.v"
-                        :value="item.k"
-                    ></el-option>
-                </el-select>
+            
+                <span style="font-size: 13px">当日涨幅：</span> <el-input v-model="query.percent"  type="number" :max="10" :min="0" placeholder="当日涨幅" class="handle-input mr10"></el-input>
+                 <span style="font-size: 13px">年初至今：</span> <el-input v-model="query.yearPercent"  type="number" :max="20" :min="0" placeholder="年初至今" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" class="mr10" @click="handleSearch">搜索</el-button>
-                <el-button type="primary" icon="el-icon-s-data" @click="handleQs">趋势</el-button>
-                <el-button type="primary" @click="exportStock" style="float: right">导出</el-button>
             </div>
             <el-table
                 :data="tableData.slice((query.current - 1) * query.size, query.current * query.size)"
@@ -22,16 +15,28 @@
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
-                <el-table-column prop="code" label="股票代码" align="center"></el-table-column>
+                <el-table-column prop="symbol" label="股票代码" align="center"></el-table-column>
                 <el-table-column prop="name" label="股票名称" width="240" align="center"></el-table-column>
-                <el-table-column prop="price" label="最新价" align="center"></el-table-column>
-                <el-table-column prop="rate" label="最新涨幅" sortable align="center">
+                <el-table-column prop="current" label="最新价" align="center"></el-table-column>
+                <el-table-column prop="percent" label="最新涨幅" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.rate > 0" style="color: red">{{scope.row.rate}}</span>
-                        <span v-else style="color: green">{{ scope.row.rate }}</span>
+                        <span v-if="scope.row.percent > 0" style="color: red">{{scope.row.percent}}</span>
+                        <span v-else style="color: green">{{ scope.row.percent }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="industry" label="行业" align="center"></el-table-column>
+                 <el-table-column prop="current_year_percent" label="年初至今" sortable align="center">
+                    <template scope="scope">
+                        <span v-if="scope.row.current_year_percent > 0" style="color: red">{{scope.row.current_year_percent}}</span>
+                        <span v-else style="color: green">{{ scope.row.current_year_percent }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="turnover_rate" label="换手率" sortable align="center"></el-table-column>
+                <el-table-column prop="market_capital" label="市值" sortable align="center">
+                    <template scope="scope">
+                        <span v-if="scope.row.market_capital > 0" style="color:blue" >{{parseFloat(scope.row.market_capital /100000000).toFixed(2)}} </span>
+                       
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作" align="center" width="200px">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-chat-line-square" class="green" @click="handleDetail(scope.row)"
@@ -59,41 +64,24 @@
                 <iframe :src="src" frameborder="no" style="width: 100%; height: 100%" scrolling="auto" />
             </div>
         </el-dialog>
-
-        <!-- 趋势分析 -->
-        <el-dialog title="成交额趋势" :visible.sync="qsOpen" width="75%" append-to-body>
-            <el-row :gutter="20">
-                <el-col>
-                    <el-card shadow="hover">
-                        <div id="box1" style="width: 100%; height: 420px"></div>
-                    </el-card>
-                </el-col>
-            </el-row>
-        </el-dialog>
+      
     </div>
 </template>
 
 <script>
 export default {
-    name: 'guoren',
+    name: 'xueqiu',
     data() {
         return {
             query: {
+                percent:'5',
+                yearPercent:'0',
                 name: '',
                 current: 1,
                 type:'1',
                 size: 50
             },
-              selectData: [
-                { k: '1', v: 'macd金叉' },
-                { k: '5', v: '当日涨停股票' },
-                { k: '2', v: '连续3日上涨' },
-                { k: '3', v: '布林线突破上轨' },
-                { k: '7', v: '布林线突破下轨' },
-                { k: '4', v: '市盈率最小' },
-                { k: '6', v: '银行市净率最小' },
-                { k: '0', v: 'macd金叉&&布林突破&&连续3日上涨' }
-            ],
+             
             detailOpen: false,
             qsOpen: false,
             src: '',
@@ -112,7 +100,7 @@ export default {
         // 获取数据
         getData() {
             this.$set(this.query, 'current', 1);
-            this.$get('/comm/stock/guoRenCode', this.query, true).then((res) => {
+            this.$get('/comm/getXueqiuList', this.query, true).then((res) => {
                 if (res.code == 200) {
                     this.tableData = res.data;
                     this.allList = res.data;
@@ -124,14 +112,9 @@ export default {
         //个股详情 http://quote.eastmoney.com/sz002617.html?code=002617
         handleDetail(row) {
             this.detailOpen = true;
-            this.src = 'http://quote.eastmoney.com/' + row.code + '.html';
+            this.src = 'http://quote.eastmoney.com/' + row.symbol + '.html';
         },
-        handleQs() {
-            this.qsOpen = true;
-            this.$nextTick(() => {
-                this.drawLine();
-            });
-        },
+      
         // 改变当前页数(current)大小
         handlePageChange(val) {
             this.$set(this.query, 'current', val);
@@ -164,39 +147,6 @@ export default {
                 });
             }
             this.tableData = newListData;
-        },
-        exportStock() {
-            //会刷新
-            // window.open(this.GLOBAL_BaseUrl+'/comm/stock/export');
-            location.href = this.GLOBAL_BaseUrl + '/comm/stock/export?type='+this.query.type;
-        },
-        drawLine() {
-            //折线
-            this.$get('comm/stock/chartData', { type: 'line' }, true).then((res) => {
-                let data = res.data;
-                if (res.code == 200) {
-                    // 基于准备好的dom，初始化echarts实例，所以只能在mounted中调用
-                    this.$nextTick(function () {
-                        let myChart = this.$echarts.init(document.getElementById('box1'));
-                        // 绘制图表
-                        myChart.setOption({
-                            title: { text: '折线' },
-                            tooltip: {},
-                            legend: {
-                                data: data.legend
-                            },
-                            xAxis: {
-                                // x坐标
-                                data: data.xAxis
-                            },
-                            yAxis: {}, // y坐标
-                            series: data.series
-                        });
-                    });
-                } else {
-                    // this.$message.error(res.msg);
-                }
-            });
         }
     }
 };

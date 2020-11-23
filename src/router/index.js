@@ -154,6 +154,10 @@ export default new Router({
                     path: '/guoren',
                     component: () => import(/* webpackChunkName: "guoren" */ '../components/page/sys/guoren.vue'),
                     meta: { title: '果仁数据' }
+                },{
+                    path: '/xueqiu',
+                    component: () => import(/* webpackChunkName: "xueqiu" */ '../components/page/sys/xueqiu.vue'),
+                    meta: { title: '雪球数据' }
                 }
             ]
         },
