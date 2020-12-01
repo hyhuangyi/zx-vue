@@ -3,10 +3,27 @@
         <div class="container">
             <div class="handle-box">
                 <el-input v-model="query.name" placeholder="股票名" class="handle-input mr10"></el-input>
-            
-                <span style="font-size: 13px">当日涨幅：</span> <el-input v-model="query.percent"  type="number" :max="10" :min="0" placeholder="当日涨幅" class="handle-input mr10"></el-input>
-                 <span style="font-size: 13px">年初至今：</span> <el-input v-model="query.yearPercent"  type="number" :max="20" :min="0" placeholder="年初至今" class="handle-input mr10"></el-input>
+
+                <span style="font-size: 13px">当日涨幅：</span>
+                <el-input
+                    v-model="query.percent"
+                    type="number"
+                    :max="10"
+                    :min="0"
+                    placeholder="当日涨幅"
+                    class="handle-input mr10"
+                ></el-input>
+                <span style="font-size: 13px">年初至今：</span>
+                <el-input
+                    v-model="query.yearPercent"
+                    type="number"
+                    :max="20"
+                    :min="0"
+                    placeholder="年初至今"
+                    class="handle-input mr10"
+                ></el-input>
                 <el-button type="primary" icon="el-icon-search" class="mr10" @click="handleSearch">搜索</el-button>
+                <el-button type="primary" @click="exportXueqiu" style="float: right">导出</el-button>
             </div>
             <el-table
                 :data="tableData.slice((query.current - 1) * query.size, query.current * query.size)"
@@ -20,21 +37,22 @@
                 <el-table-column prop="current" label="最新价" align="center"></el-table-column>
                 <el-table-column prop="percent" label="最新涨幅" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.percent > 0" style="color: red">{{scope.row.percent}}</span>
+                        <span v-if="scope.row.percent > 0" style="color: red">{{ scope.row.percent }}</span>
                         <span v-else style="color: green">{{ scope.row.percent }}</span>
                     </template>
                 </el-table-column>
-                 <el-table-column prop="current_year_percent" label="年初至今" sortable align="center">
+                <el-table-column prop="current_year_percent" label="年初至今" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.current_year_percent > 0" style="color: red">{{scope.row.current_year_percent}}</span>
+                        <span v-if="scope.row.current_year_percent > 0" style="color: red">{{ scope.row.current_year_percent }}</span>
                         <span v-else style="color: green">{{ scope.row.current_year_percent }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="turnover_rate" label="换手率" sortable align="center"></el-table-column>
                 <el-table-column prop="market_capital" label="市值" sortable align="center">
                     <template scope="scope">
-                        <span v-if="scope.row.market_capital > 0" style="color:blue" >{{parseFloat(scope.row.market_capital /100000000).toFixed(2)}} </span>
-                       
+                        <span v-if="scope.row.market_capital > 0" style="color: blue"
+                            >{{ parseFloat(scope.row.market_capital / 100000000).toFixed(2) }}
+                        </span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="200px">
@@ -64,7 +82,6 @@
                 <iframe :src="src" frameborder="no" style="width: 100%; height: 100%" scrolling="auto" />
             </div>
         </el-dialog>
-      
     </div>
 </template>
 
@@ -74,14 +91,14 @@ export default {
     data() {
         return {
             query: {
-                percent:'5',
-                yearPercent:'0',
+                percent: '5',
+                yearPercent: '0',
                 name: '',
                 current: 1,
-                type:'1',
+                type: '1',
                 size: 50
             },
-             
+
             detailOpen: false,
             qsOpen: false,
             src: '',
@@ -114,7 +131,13 @@ export default {
             this.detailOpen = true;
             this.src = 'http://quote.eastmoney.com/' + row.symbol + '.html';
         },
-      
+        exportXueqiu() {
+            //会刷新
+            // window.open(this.GLOBAL_BaseUrl+'/comm/exportXueqiu');
+            location.href =
+                this.GLOBAL_BaseUrl + '/comm/exportXueqiu?percent=' + this.query.percent + '&yearPercent=' + this.query.yearPercent;
+        },
+
         // 改变当前页数(current)大小
         handlePageChange(val) {
             this.$set(this.query, 'current', val);
