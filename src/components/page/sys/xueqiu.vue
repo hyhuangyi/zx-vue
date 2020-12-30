@@ -24,6 +24,7 @@
                 ></el-input>
                 <el-button type="primary" icon="el-icon-search" class="mr10" @click="handleSearch">搜索</el-button>
                 <el-button type="primary" @click="exportXueqiu" style="float: right">导出</el-button>
+                 <el-button type="primary" icon="el-icon-s-data" @click="handleQs"  style="float: right">趋势</el-button>
             </div>
             <el-table
                 :data="tableData.slice((query.current - 1) * query.size, query.current * query.size)"
@@ -82,6 +83,16 @@
                 <iframe :src="src" frameborder="no" style="width: 100%; height: 100%" scrolling="auto" />
             </div>
         </el-dialog>
+        <!-- 趋势分析 -->
+        <el-dialog title="成交额趋势" :visible.sync="qsOpen" width="75%" append-to-body>
+            <el-row :gutter="20">
+                <el-col>
+                    <el-card shadow="hover">
+                        <div id="box1" style="width: 100%; height: 420px"></div>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-dialog>
     </div>
 </template>
 
@@ -131,6 +142,13 @@ export default {
             this.detailOpen = true;
             this.src = 'http://quote.eastmoney.com/' + row.symbol + '.html';
         },
+        //趋势
+        handleQs() {
+            this.qsOpen = true;
+            this.$nextTick(() => {
+                this.drawLine();
+            });
+        },
         exportXueqiu() {
             //会刷新
             // window.open(this.GLOBAL_BaseUrl+'/comm/exportXueqiu');
@@ -170,6 +188,34 @@ export default {
                 });
             }
             this.tableData = newListData;
+        },
+        drawLine() {
+            //折线
+            this.$get('comm/stock/chartData', { type: 'line' }, true).then((res) => {
+                let data = res.data;
+                if (res.code == 200) {
+                    // 基于准备好的dom，初始化echarts实例，所以只能在mounted中调用
+                    this.$nextTick(function () {
+                        let myChart = this.$echarts.init(document.getElementById('box1'));
+                        // 绘制图表
+                        myChart.setOption({
+                            title: { text: '折线' },
+                            tooltip: {},
+                            legend: {
+                                data: data.legend
+                            },
+                            xAxis: {
+                                // x坐标
+                                data: data.xAxis
+                            },
+                            yAxis: {}, // y坐标
+                            series: data.series
+                        });
+                    });
+                } else {
+                    // this.$message.error(res.msg);
+                }
+            });
         }
     }
 };
