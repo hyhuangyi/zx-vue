@@ -45,6 +45,13 @@
                         </span>
                     </template>
                 </el-table-column>
+                <el-table-column prop="count" label="次数" sortable align="center">
+                    <template scope="scope">
+                        <span v-if="scope.row.count > 0" style="color: purple">
+                            {{ scope.row.count }}
+                        </span>
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作" align="center" width="200px">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-chat-line-square" class="green" @click="handleDetail(scope.row)"
@@ -57,7 +64,7 @@
                 <el-pagination
                     layout="sizes, prev,pager, next,total,jumper"
                     :current-page="query.current"
-                    :page-sizes="[50, 100, 200, 300]"
+                    :page-sizes="[50, 100, 300, 900]"
                     :page-size="query.size"
                     :total="pageTotal"
                     @current-change="handlePageChange"
