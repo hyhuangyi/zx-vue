@@ -158,6 +158,11 @@ export default new Router({
                     path: '/xueqiu',
                     component: () => import(/* webpackChunkName: "xueqiu" */ '../components/page/sys/xueqiu.vue'),
                     meta: { title: '雪球数据' }
+                },
+                {
+                    path: '/xueqiu-history',
+                    component: () => import(/* webpackChunkName: "xueqiu-history" */ '../components/page/sys/xueqiu-history.vue'),
+                    meta: { title: '历史数据' }
                 }
             ]
         },
