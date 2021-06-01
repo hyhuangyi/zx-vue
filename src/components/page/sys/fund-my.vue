@@ -107,8 +107,8 @@
         </div>
         <!-- 新增基金 -->
         <el-dialog title="新增基金" :visible.sync="open" width="33%" @close='cancel()' append-to-body>
-            <el-form ref="form" v-model="form" label-width="80px">
-                <el-form-item label="基金">
+            <el-form ref="form" :model="form" label-width="80px">
+                <el-form-item label="基金" prop="fund">
                     <el-autocomplete
                         v-model="form.fund"
                         :fetch-suggestions="querySearch"
@@ -122,16 +122,16 @@
                         </template>
                     </el-autocomplete>
                 </el-form-item>
-                <el-form-item label="持仓份额">
+                <el-form-item label="持仓份额"  prop="holdNum">
                     <el-input v-model="form.holdNum" type="number" style="width: 350px" :min="0"></el-input>
                 </el-form-item>
-                <el-form-item label="备注">
+                <el-form-item label="备注" prop="remark">
                     <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 350px"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="submitForm">确 定</el-button>
-                <el-button @click="cancel">取 消</el-button>
+                <el-button @click="cancel()">取 消</el-button>
             </div>
         </el-dialog>
 
@@ -362,20 +362,11 @@ export default {
         },
         // 取消按钮
         cancel() {
-            this.open = false;
             this.reset();
+            this.open = false;
         },
         // 表单重置
         reset() {
-            if (this.$refs.menu != undefined) {
-                this.$refs.menu.setCheckedKeys([]);
-            }
-            this.form = {
-                id: null,
-                roleName: null,
-                menuList: '',
-                remark: ''
-            };
             this.resetForm('form');
         },
         // 表单重置
