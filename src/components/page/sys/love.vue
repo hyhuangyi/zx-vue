@@ -7,7 +7,7 @@
 export default {
   data() {
     return {
-      src: this.GLOBAL_BaseUrl + "/comm/html/aqs.html",
+      src: this.GLOBAL_BaseUrl + "/comm/html/aqs",
       height: document.documentElement.clientHeight - 94.5 + "px;",
       loading: true
     };
